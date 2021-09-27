@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "driconfig"
-version = "0.1.0"
+version = "0.1.1"
 description = "Pydantic-ish YAML configuration management."
 license = "MIT"
 authors = ["Dribia Data Research <info@dribia.com>"]
