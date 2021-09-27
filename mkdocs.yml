@@ -1,0 +1,35 @@
+site_name: driconfig
+site_description: Python class to read from .yaml config files
+strict: true
+
+theme:
+  name: material
+  custom_dir: docs/theme
+  language: en
+  favicon: img/dribia-favicon-120x120.png
+  logo: img/logo_dribia_d_blanc.png
+repo_name: dribia/driconfig
+repo_url: https://github.com/dribia/driconfig
+edit_uri: ''
+nav:
+  - driconfig: index.md
+  - Install: install.md
+  - Usage:
+    - usage/intro.md
+    - usage/config.md
+    - usage/nested_models.md
+  - Contribute: contribute.md
+extra_css:
+- stylesheets/extra.css
+
+markdown_extensions:
+- markdown.extensions.codehilite:
+    guess_lang: false
+- toc:
+    permalink: 🔗
+- codehilite
+- admonition
+- pymdownx.details
+- pymdownx.superfences
+- pymdownx.tabbed
+

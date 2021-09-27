@@ -1,0 +1,4 @@
+# Test config file designed to work.
+
+foo: bar
+CASE_SENSITIVE: is_not_case_sensitive
