@@ -3,8 +3,8 @@
 set -e
 set -x
 
-mypy driconfig
-flake8 driconfig tests
-black driconfig tests --check
-isort driconfig tests --check-only
-pydocstyle driconfig
+poetry run mypy driconfig
+poetry run flake8 driconfig tests
+poetry run black driconfig tests --check
+poetry run isort driconfig tests --check-only
+poetry run pydocstyle driconfig
