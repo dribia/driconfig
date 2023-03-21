@@ -1,8 +1,8 @@
 <p style="text-align: center; padding-bottom: 1rem;">
     <a href="https://dribia.github.io/driconfig">
-        <img 
-            src="https://dribia.github.io/driconfig/img/logo_dribia_blau_cropped.png" 
-            alt="driconfig" 
+        <img
+            src="https://dribia.github.io/driconfig/img/logo_dribia_blau_cropped.png"
+            alt="driconfig"
             style="display: block; margin-left: auto; margin-right: auto; width: 40%;"
         >
     </a>
@@ -78,7 +78,7 @@ class DateInterval(BaseModel):
   start: date
   end: date
 
-  
+
 class AppConfig(DriConfig):
    """Interface for the config/config.yaml file."""
 

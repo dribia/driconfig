@@ -3,7 +3,7 @@ Installation is as simple as:
 ```shell
 pip install driconfig
 ```
-Driconfig heavily depends on two other Python libraries, 
+Driconfig heavily depends on two other Python libraries,
 that will be installed as dependencies:
 
 * [**Pydantic**](https://pydantic-docs.helpmanual.io/) is a _data validation framework using Python type annotations._

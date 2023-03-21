@@ -2,9 +2,9 @@
 
 <p style="text-align: center; padding-bottom: 1rem;">
     <a href="https://dribia.github.io/driconfig">
-        <img 
-            src="../img/logo_dribia_blau_cropped.png" 
-            alt="driconfig" 
+        <img
+            src="../img/logo_dribia_blau_cropped.png"
+            alt="driconfig"
             style="display: block; margin-left: auto; margin-right: auto; width: 40%;"
         >
     </a>
@@ -36,7 +36,7 @@ In order to contribute, the first step is to clone yourself the code:
 ```shell
 git clone https://github.com/dribia/driconfig.git
 ```
-Then, you can step into the project's root and, assuming that you have both [Poetry](https://python-poetry.org/) and 
+Then, you can step into the project's root and, assuming that you have both [Poetry](https://python-poetry.org/) and
 [pre-commit](https://pre-commit.com/) installed, run:
 ```shell
 poetry install && pre-commit install
