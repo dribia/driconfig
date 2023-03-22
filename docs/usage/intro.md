@@ -1,9 +1,9 @@
-Driconfig mimics Pydantic's [Settings Management](https://pydantic-docs.helpmanual.io/usage/settings/) 
+Driconfig mimics Pydantic's [Settings Management](https://pydantic-docs.helpmanual.io/usage/settings/)
 functionality, working with YAML configurations instead of environment variables or `.env` files.
 
 ## The YAML language
 
-YAML is a human-readable data-serialization language, commonly used for configuration files. 
+YAML is a human-readable data-serialization language, commonly used for configuration files.
 It natively encodes scalars (such as strings, integers, and floats), lists, and dictionaries.
 
 ```yaml
@@ -15,14 +15,14 @@ parameter_c: 1.2
 parameter_d: ["I'm", "a", "list"]
 ```
 
-The above code block contains a sample configuration file written in the YAML language. 
+The above code block contains a sample configuration file written in the YAML language.
 
 !!! info
     If you want to run the rest of the code blocks in this document, place the contents of the
     previous one into a file called `config.yaml` in your working directory.
 
 !!! tip
-    A YAML configuration file should always be a dictionary at its first level. 
+    A YAML configuration file should always be a dictionary at its first level.
     The elements of this dictionary, then, could be of any type (scalars, lists or dictionaries).
 
 The goal of Driconfig is to provide an interface between your Python code and such YAML confguration files.
@@ -36,7 +36,7 @@ from driconfig import DriConfig
 
 class AppConfig(DriConfig):  # Inherits the base DriConfig class.
     """Empty configuration class."""
-    
+
     pass
 
 app_config = AppConfig()
@@ -56,14 +56,14 @@ from driconfig import DriConfig
 
 class AppConfig(DriConfig):
     """Empty configuration class."""
-    
+
     class Config:
         """Configure AppConfig to point at the config.yaml file."""
         config_folder = "."
         config_file_name = "config.yaml"
 
 app_config = AppConfig()
-        
+
 print(app_config.json())
 """
 {}
@@ -71,8 +71,8 @@ print(app_config.json())
 ```
 
 !!! note
-    We have extended the use of 
-    [Pydantic models `Config` class](https://pydantic-docs.helpmanual.io/usage/model_config/) 
+    We have extended the use of
+    [Pydantic models `Config` class](https://pydantic-docs.helpmanual.io/usage/model_config/)
     to host the YAML file information.
     In the [Config](config.md) section we detail which configurations have been
     added or modified.
@@ -87,19 +87,19 @@ from driconfig import DriConfig
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
-    
+
     class Config:
         """Configure AppConfig to point at the config.yaml file."""
         config_folder = "."
         config_file_name = "config.yaml"
-        
+
     parameter_a: str
     parameter_b: int
     parameter_c: float
     parameter_d: List[str]
 
 app_config = AppConfig()
-        
+
 print(app_config.json(indent=4))
 """
 {
@@ -125,12 +125,12 @@ from pydantic import ValidationError
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
-    
+
     class Config:
         """Configure AppConfig to point at the config.yaml file."""
         config_folder = "."
         config_file_name = "config.yaml"
-        
+
     parameter_a: int
 
 try:
@@ -159,12 +159,12 @@ from driconfig import DriConfig
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
-    
+
     class Config:
         """Configure AppConfig to point at the config.yaml file."""
         config_folder = "."
         config_file_name = "config.yaml"
-        
+
     parameter_a: str
     parameter_b: int
     parameter_c: float
@@ -172,7 +172,7 @@ class AppConfig(DriConfig):
     parameter_e: str = "default value"
 
 app_config = AppConfig()
-        
+
 print(app_config.json(indent=4))
 """
 {
@@ -207,12 +207,12 @@ from driconfig import DriConfig
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
-    
+
     class Config:
         """Configure AppConfig to point at the config.yaml file."""
         config_folder = "."
         config_file_name = "config.yaml"
-        
+
     parameter_a: str
     parameter_b: int
     parameter_c: float
@@ -220,7 +220,7 @@ class AppConfig(DriConfig):
     parameter_e: str = "default value"
 
 app_config = AppConfig()
-        
+
 print(app_config.json(indent=4))
 """
 {

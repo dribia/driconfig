@@ -32,17 +32,17 @@ from driconfig import DriConfig
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
-    
+
     class Config:
         """Configure AppConfig to point at the config.yaml file."""
-        
+
         config_folder = "."
         config_file_name = "config.yaml"
-    
+
     timeout: int
     min_date: date
     model_parameters: Dict[str, Any]
-    
+
 app_config = AppConfig()
 print(app_config.json(indent=4))
 """
@@ -78,7 +78,7 @@ from driconfig import DriConfig
 
 class ModelParameters(BaseModel):
     """Pydantic model for `model_parameters`."""
-    
+
     alpha: int
     beta: float
     gamma: int
@@ -86,17 +86,17 @@ class ModelParameters(BaseModel):
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
-    
+
     class Config:
         """Configure AppConfig to point at the config.yaml file."""
-        
+
         config_folder = "."
         config_file_name = "config.yaml"
-    
+
     timeout: int
     min_date: date
     model_parameters: ModelParameters
-    
+
 app_config = AppConfig()
 print(app_config.json(indent=4))
 """
@@ -118,5 +118,5 @@ print(type(app_config.model_parameters))
 
 Note how, in this case, type validation *is* performed for `alpha`, `beta` and `gamma`.
 
-We could mimic this pattern to build even deeper nested configuration parsers, 
+We could mimic this pattern to build even deeper nested configuration parsers,
 holding all of Pydantic's validation power.
