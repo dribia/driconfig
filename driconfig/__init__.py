@@ -4,28 +4,40 @@ This module is heavily inspired in Pydantic's Settings management.
 
 Dribia Data Research 2021
 """
+from __future__ import annotations as _annotations
 
+import os
 from collections.abc import Mapping
+from importlib.metadata import version
 from pathlib import Path
-from typing import AbstractSet, Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import (
+    Any,
+    ClassVar,
+    Type,
+)
 
 import yaml
-from pydantic import BaseConfig, BaseModel, Extra
-from pydantic.fields import ModelField
+from pydantic import BaseConfig, BaseModel, ConfigDict
+from pydantic.fields import FieldInfo
 from pydantic.utils import deep_update
+from pydantic_settings.sources import (
+    EnvSettingsSource,
+    InitSettingsSource,
+    PydanticBaseSettingsSource,
+)
 from yaml import YAMLError
-
-try:
-    from importlib.metadata import version  # type: ignore
-except ModuleNotFoundError:
-    from importlib_metadata import version  # type: ignore
 
 __version__ = version(__name__)
 
-config_file_sentinel = str(object())
-config_folder_sentinel = str(object())
 
-ConfigsSourceCallable = Callable[["DriConfig"], Dict[str, Any]]
+class DriConfigConfigDict(ConfigDict, total=False):
+    """DriConfig configuration dictionary."""
+
+    case_sensitive: bool
+    config_file_name: str | None
+    config_folder: str | None
+    config_file_encoding: str | None
+    config_prefix: str | None
 
 
 class YAMLConfigError(YAMLError):
@@ -44,9 +56,10 @@ class DriConfig(BaseModel):
 
     def __init__(
         __pydantic_self__,
-        _config_file_name: Union[str, None] = config_file_sentinel,
-        _config_folder: Union[Path, str, None] = config_folder_sentinel,
-        _config_file_encoding: Optional[str] = None,
+        _case_sensitive: bool | None = None,
+        _config_file_name: str | None = None,
+        _config_folder: Path | str | None = None,
+        _config_file_encoding: str | None = None,
         **values: Any,
     ) -> None:
         """Initialization parameters.
@@ -68,33 +81,42 @@ class DriConfig(BaseModel):
         # Uses something other than `self` the first arg
         # to allow "self" as a settable attribute
         super().__init__(
-            **__pydantic_self__._build_values(
+            **__pydantic_self__._config_build_values(
                 values,
-                _config_file_name=(
-                    _config_file_name
-                    if _config_file_name != config_file_sentinel
-                    else __pydantic_self__.__config__.config_file_name
-                ),
-                _config_folder=(
-                    _config_folder
-                    if _config_folder != config_folder_sentinel
-                    else __pydantic_self__.__config__.config_folder
-                ),
-                _config_file_encoding=(
-                    _config_file_encoding
-                    if _config_file_encoding is not None
-                    else __pydantic_self__.__config__.config_file_encoding
-                ),
+                _case_sensitive=_case_sensitive,
+                _config_file_name=_config_file_name,
+                _config_folder=_config_folder,
+                _config_file_encoding=_config_file_encoding,
             )
         )
 
-    def _build_values(
+    @classmethod
+    def config_customise_sources(
+        cls,
+        settings_cls: Type["DriConfig"],
+        init_config: PydanticBaseSettingsSource,
+        yaml_config: PydanticBaseSettingsSource,
+    ) -> tuple[PydanticBaseSettingsSource, ...]:
+        """Define the sources and their order for loading the settings values.
+
+        Args:
+            settings_cls: The Settings class.
+            init_config: The `InitConfigSource` instance.
+            yaml_config: The `YamlConfigSource` instance.
+
+        Returns:
+            A tuple containing the sources and their order for loading the settings values.
+        """
+        return init_config, yaml_config
+
+    def _config_build_values(
         self,
-        init_kwargs: Dict[str, Any],
-        _config_file_name: Union[str, None] = None,
-        _config_folder: Union[Path, str, None] = None,
-        _config_file_encoding: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        init_kwargs: dict[str, Any],
+        _case_sensitive: bool | None = None,
+        _config_file_name: str | None = None,
+        _config_folder: Path | str | None = None,
+        _config_file_encoding: str | None = None,
+    ) -> dict[str, Any]:
         """Build the configuration values based on init and YAML.
 
         We prioritize initialization values over configured values
@@ -111,149 +133,159 @@ class DriConfig(BaseModel):
         Returns: The value dictionary.
 
         """
-        init_config = InitConfigSource(init_kwargs=init_kwargs)
-        yaml_config = YamlConfigSource(
-            config_file_name=_config_file_name,
-            config_folder=_config_folder,
-            config_file_encoding=_config_file_encoding,
+        case_sensitive = (
+            _case_sensitive
+            if _case_sensitive is not None
+            else self.model_config.get("case_sensitive")
         )
-        sources = self.__config__.customise_sources(
-            init_config=init_config, yaml_config=yaml_config
+        config_file_name = (
+            _config_file_name
+            if _config_file_name is not None
+            else self.model_config.get("config_file_name")
+        )
+        config_folder = (
+            _config_folder
+            if _config_folder is not None
+            else self.model_config.get("config_folder")
+        )
+        config_file_encoding = (
+            _config_file_encoding
+            if _config_file_encoding is not None
+            else self.model_config.get("config_file_encoding")
+        )
+        init_config = InitSettingsSource(self.__class__, init_kwargs=init_kwargs)
+        yaml_config = YamlConfigSource(
+            self.__class__,  # type: ignore
+            config_file_name=config_file_name,
+            config_folder=config_folder,
+            config_file_encoding=config_file_encoding,
+            case_sensitive=case_sensitive,
+        )
+        sources = self.config_customise_sources(
+            self.__class__, init_config=init_config, yaml_config=yaml_config
         )
         if sources:
-            return deep_update(*reversed([source(self) for source in sources]))
+            return deep_update(*reversed([source() for source in sources]))
         else:
             return {}
 
-    class Config(BaseConfig):
-        """Base internal Config class.
-
-        This class and its attributes can (should) be overridden
-        when creating a YAML configuration class.
-
-        """
-
-        config_prefix = ""  # Only load YAML entries with given prefix.
-        config_folder = "."  # Folder where the YAML file is located.
-        config_file_name = None  # File name of the YAML file.
-        config_file_encoding = None  # Encoding of the YAML file.
-        validate_all = True
-        extra = Extra.forbid
-        arbitrary_types_allowed = True
-        case_sensitive = False
-
-        @classmethod
-        def prepare_field(cls, field: ModelField) -> None:
-            """Prepare field for being loaded w/ the configured prefix.
-
-            Args:
-                field: Model field.
-
-            Returns: Prepared model field.
-
-            """
-            config_names: Union[List[str], AbstractSet[str]]
-            config_names = {cls.config_prefix + field.name}
-            if not cls.case_sensitive:
-                config_names = config_names.__class__(n.lower() for n in config_names)
-            field.field_info.extra["config_names"] = config_names
-
-        @classmethod
-        def customise_sources(
-            cls,
-            init_config: ConfigsSourceCallable,
-            yaml_config: ConfigsSourceCallable,
-        ) -> Tuple[ConfigsSourceCallable, ...]:
-            """Join configurations from different sources.
-
-            Here we define the prioritization of initialization values
-            over YAML-configured values.
-
-            Args:
-                init_config: Initialization values.
-                yaml_config: Configured values in YAML.
-
-            Returns: Sorted configuration value sources.
-
-            """
-            return init_config, yaml_config
-
-    __config__: Config  # type: ignore
+    model_config: ClassVar[DriConfigConfigDict] = DriConfigConfigDict(
+        extra="forbid",
+        arbitrary_types_allowed=True,
+        validate_default=True,
+        case_sensitive=False,
+        protected_namespaces=("model_", "config_"),
+        config_prefix=None,
+        config_folder=None,
+        config_file_name=None,
+    )
 
 
-class InitConfigSource:
+class InitConfigSource(InitSettingsSource):
     """Configuration source from the __init__ arguments."""
-
-    __slots__ = ("init_kwargs",)
-
-    def __init__(self, init_kwargs: Dict[str, Any]):
-        """Configurations passed."""
-        self.init_kwargs = init_kwargs
-
-    def __call__(self, configs: DriConfig) -> Dict[str, Any]:
-        """Obtain configurations."""
-        return self.init_kwargs
 
     def __repr__(self) -> str:
         """Class representation."""
         return f"InitConfigSource(init_kwargs={self.init_kwargs!r})"
 
 
-class YamlConfigSource:
+class YamlConfigSource(EnvSettingsSource):
     """Configuration source from the a YAML configuration file."""
-
-    __slots__ = ("config_file", "config_file_encoding")
 
     def __init__(
         self,
-        config_file_name: Union[str, None],
-        config_folder: Union[Path, str, None],
-        config_file_encoding: Optional[str],
+        settings_cls: Type[BaseConfig],
+        config_file_name: str | None = None,
+        config_folder: Path | str | None = None,
+        config_file_encoding: str | None = None,
+        case_sensitive: bool | None = None,
     ):
         """Initialize the YAML configurations source.
 
         Args:
+            settings_cls: The DriConfig class.
             config_file_name: YAML configuration file name.
             config_folder: YAML configuration folder.
             config_file_encoding: YAML configuration encoding.
+            case_sensitive: Whether to use case-sensitive keys.
 
         """
-        self.config_file: Union[Path, None] = None
+        super().__init__(
+            settings_cls,
+            case_sensitive=case_sensitive,
+            env_prefix=None,
+            env_nested_delimiter=None,
+        )
+        self.config_file: Path | None = None
+        self.case_sensitive: bool = case_sensitive
         if config_file_name is not None and config_folder is not None:
             self.config_file = Path(config_folder) / config_file_name
-        self.config_file_encoding: Optional[str] = config_file_encoding
+        self.config_file_encoding: str | None = config_file_encoding
+        self.env_vars = self._load_config_vars()
 
-    def __call__(self, configs: DriConfig) -> Dict[str, Any]:
+    def _load_config_vars(self) -> dict[str, Any]:
+        """Load configuration variables from the YAML file."""
+        return self._read_config_files(self.case_sensitive)
+
+    def _read_config_files(self, case_sensitive: bool):
+        if self.config_file is None:
+            return {}
+        if isinstance(self.config_file, (str, os.PathLike)):
+            config_files = [self.config_file]
+        else:
+            config_files = self.config_file
+        config_vars: dict[str, str | None] = {}
+        for config_file in config_files:
+            config_path = Path(config_file).expanduser()
+            if config_path.is_file():
+                config_vars.update(
+                    read_yaml_file(
+                        config_path,
+                        encoding=self.config_file_encoding,
+                        case_sensitive=case_sensitive,
+                    )
+                )
+
+        return config_vars
+
+    def prepare_field_value(
+        self, field_name: str, field: FieldInfo, value: Any, value_is_complex: bool
+    ) -> Any:
+        """Prepare the field value."""
+        if isinstance(value, dict):
+            deep_update(value, self.explode_env_vars(field_name, field, self.env_vars))
+        return value
+
+    def __call__(self) -> dict[str, Any]:
         """Build variables from the YAML configuration file."""
-        d: Dict[str, Optional[str]] = {}
-        config_vars: Dict[str, Any] = {}
+        data: dict[str, Any] = super().__call__()
         if self.config_file is not None:
             config_path = Path(self.config_file).expanduser()
             if config_path.is_file():
                 yaml_file = read_yaml_file(
                     config_path,
                     encoding=self.config_file_encoding,
-                    case_sensitive=configs.__config__.case_sensitive,
+                    case_sensitive=self.case_sensitive,
                 )
                 if not isinstance(yaml_file, Mapping):
                     raise YAMLConfigError(
                         f"The YAML configuration file must be a "
                         f"mapping and not a '{type(yaml_file).__name__}'."
                     )
-                config_vars = {**yaml_file}
 
-        for field in configs.__fields__.values():
-            config_val: Optional[str] = None
-            for config_name in field.field_info.extra["config_names"]:
-                config_val = config_vars.get(config_name)
-                if config_val is not None:
-                    break
-
-            if config_val is None:
-                continue
-
-            d[field.alias] = config_val
-        return d
+        # for field_name, field in self.settings_cls.model_fields.items():
+        #     field_value, field_key, _ = self.get_field_value(field, field_name)
+        #     config_val: str | None = None
+        #     for config_name in field.field_info.extra["config_names"]:
+        #         config_val = config_vars.get(config_name)
+        #         if config_val is not None:
+        #             break
+        #
+        #     if config_val is None:
+        #         continue
+        #
+        #     data[field.alias] = config_val
+        return data
 
     def __repr__(self) -> str:
         """Class representation."""
@@ -265,7 +297,7 @@ class YamlConfigSource:
 
 def read_yaml_file(
     file_path: Path, *, encoding: str = None, case_sensitive: bool = False
-) -> Dict[str, Optional[str]]:
+) -> dict[str, str | None]:
     """Parse a YAML configuration file.
 
     Args:
@@ -277,7 +309,7 @@ def read_yaml_file(
 
     """
     with open(file_path, "r", encoding=encoding or "utf8") as f:
-        file_vars: Dict[str, Any] = yaml.load(f, Loader=yaml.SafeLoader)
+        file_vars: dict[str, Any] = yaml.load(f, Loader=yaml.SafeLoader)
     if not case_sensitive:
         try:
             return {k.lower(): v for k, v in file_vars.items()}
