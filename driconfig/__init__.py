@@ -17,9 +17,10 @@ from typing import (
 )
 
 import yaml
-from pydantic import BaseConfig, BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict
 from pydantic.fields import FieldInfo
-from pydantic.utils import deep_update
+from pydantic.v1.utils import deep_update
+from pydantic_settings import BaseSettings
 from pydantic_settings.sources import (
     EnvSettingsSource,
     InitSettingsSource,
@@ -93,7 +94,7 @@ class DriConfig(BaseModel):
     @classmethod
     def config_customise_sources(
         cls,
-        settings_cls: Type["DriConfig"],
+        settings_cls: Type[DriConfig],
         init_config: PydanticBaseSettingsSource,
         yaml_config: PydanticBaseSettingsSource,
     ) -> tuple[PydanticBaseSettingsSource, ...]:
@@ -121,7 +122,7 @@ class DriConfig(BaseModel):
 
         We prioritize initialization values over configured values
         in the YAML file. However, the purpose of this class is to
-        defined the configuration values via a YAML configuration
+        define the configuration values via a YAML configuration
         file!
 
         Args:
@@ -153,7 +154,10 @@ class DriConfig(BaseModel):
             if _config_file_encoding is not None
             else self.model_config.get("config_file_encoding")
         )
-        init_config = InitSettingsSource(self.__class__, init_kwargs=init_kwargs)
+        init_config = InitSettingsSource(
+            self.__class__,  # type: ignore
+            init_kwargs=init_kwargs,
+        )
         yaml_config = YamlConfigSource(
             self.__class__,  # type: ignore
             config_file_name=config_file_name,
@@ -162,7 +166,9 @@ class DriConfig(BaseModel):
             case_sensitive=case_sensitive,
         )
         sources = self.config_customise_sources(
-            self.__class__, init_config=init_config, yaml_config=yaml_config
+            self.__class__,
+            init_config=init_config,
+            yaml_config=yaml_config,
         )
         if sources:
             return deep_update(*reversed([source() for source in sources]))
@@ -190,11 +196,11 @@ class InitConfigSource(InitSettingsSource):
 
 
 class YamlConfigSource(EnvSettingsSource):
-    """Configuration source from the a YAML configuration file."""
+    """Configuration source from the YAML configuration file."""
 
     def __init__(
         self,
-        settings_cls: Type[BaseConfig],
+        settings_cls: Type[BaseSettings],
         config_file_name: str | None = None,
         config_folder: Path | str | None = None,
         config_file_encoding: str | None = None,
@@ -238,13 +244,17 @@ class YamlConfigSource(EnvSettingsSource):
         for config_file in config_files:
             config_path = Path(config_file).expanduser()
             if config_path.is_file():
-                config_vars.update(
-                    read_yaml_file(
-                        config_path,
-                        encoding=self.config_file_encoding,
-                        case_sensitive=case_sensitive,
-                    )
+                yaml_file = read_yaml_file(
+                    config_path,
+                    encoding=self.config_file_encoding,
+                    case_sensitive=case_sensitive,
                 )
+                if not isinstance(yaml_file, Mapping):
+                    raise YAMLConfigError(
+                        f"The YAML configuration file must be a "
+                        f"mapping and not a '{type(yaml_file).__name__}'."
+                    )
+                config_vars.update(yaml_file)
 
         return config_vars
 
