@@ -66,3 +66,6 @@ target/
 
 # pytest
 .pytest_cache/
+
+# python scripts to run stuff
+python_scripts
