@@ -105,7 +105,10 @@ def test_customise_sources_empty():
             return ()
 
     assert AppConfig().model_dump() == {"apple": "default", "banana": "default"}
-    assert AppConfig(apple="xxx").model_dump() == {"apple": "xxx", "banana": "default"}
+    assert AppConfig(apple="xxx").model_dump() == {
+        "apple": "default",
+        "banana": "default",
+    }
 
 
 def test_catch_on_non_str_key(config_path):
