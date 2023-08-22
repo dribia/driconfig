@@ -15,7 +15,7 @@
 </p>
 
 ## Mantainers
-Driconfig is maintained by:
+DriConfig is maintained by:
 
 * Irene Pérez - <irene@dribia.com>
 * Albert Iribarne - <iribarne@dribia.com>
