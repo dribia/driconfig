@@ -16,7 +16,7 @@ nav:
   - Install: install.md
   - Usage:
     - usage/intro.md
-    - usage/config.md
+    - usage/configdict.md
     - usage/nested_models.md
   - Contribute: contribute.md
 extra_css:

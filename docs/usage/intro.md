@@ -41,40 +41,49 @@ class AppConfig(DriConfig):  # Inherits the base DriConfig class.
 
 app_config = AppConfig()
 
-print(app_config.json())
+print(app_config.model_dump_json())
 """
 {}
 """
 ```
 
-### The DriConfig's Config class
+### The DriConfig's DriConfigConfigDict dictionary
 Now, we would want to read and parse the `config.yaml` file we created before.
 We need to configure our `AppConfig` class in order to point at that file.
 
 ```python
-from driconfig import DriConfig
+from driconfig import DriConfig, DriConfigConfigDict
 
 class AppConfig(DriConfig):
     """Empty configuration class."""
 
-    class Config:
-        """Configure AppConfig to point at the config.yaml file."""
-        config_folder = "."
-        config_file_name = "config.yaml"
+    """Configure AppConfig to point at the config.yaml file."""
+    model_config = DriConfigConfigDict(
+        config_folder=".",
+        config_file_name="config.yaml",
+    )
 
 app_config = AppConfig()
 
-print(app_config.json())
+print(app_config.model_dump_json())
 """
 {}
 """
 ```
 
+!!! warning
+    In Pydantic V2, to specify config on a model, you should set
+    a class attribute called model_config to be a dict with the
+    key/value pairs you want to be used as the config.
+    The Pydantic V1 behavior to create a
+    [class called Config](https://pydantic-docs.helpmanual.io/usage/model_config/)
+    in the namespace of the parent `BaseModel` subclass is now deprecated.
+
 !!! note
     We have extended the use of
-    [Pydantic models `Config` class](https://pydantic-docs.helpmanual.io/usage/model_config/)
+    [Pydantic `ConfigDict` dictionary](https://docs.pydantic.dev/latest/api/config/#pydantic.config.ConfigDict)
     to host the YAML file information.
-    In the [Config](config.md) section we detail which configurations have been
+    In the [ConfigDict](configdict.md) section we detail which configurations have been
     added or modified.
 
 ### Parsing YAML configurations
@@ -83,15 +92,16 @@ Now we would want to parse the configurations we put on our `config.yaml` file.
 ```python
 from typing import List
 
-from driconfig import DriConfig
+from driconfig import DriConfig, DriConfigConfigDict
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
 
-    class Config:
-        """Configure AppConfig to point at the config.yaml file."""
-        config_folder = "."
-        config_file_name = "config.yaml"
+    """Configure AppConfig to point at the config.yaml file."""
+    model_config = DriConfigConfigDict(
+        config_folder=".",
+        config_file_name="config.yaml",
+    )
 
     parameter_a: str
     parameter_b: int
@@ -100,7 +110,7 @@ class AppConfig(DriConfig):
 
 app_config = AppConfig()
 
-print(app_config.json(indent=4))
+print(app_config.model_dump_json(indent=4))
 """
 {
     "parameter_a": "some string",
@@ -120,16 +130,17 @@ In fact, while parsing the `config.yaml` file Driconfig is performing **type val
 so that if your configuration variable value is of an undesired type it will raise a validation error.
 
 ```python
-from driconfig import DriConfig
+from driconfig import DriConfig, DriConfigConfigDict
 from pydantic import ValidationError
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
 
-    class Config:
-        """Configure AppConfig to point at the config.yaml file."""
-        config_folder = "."
-        config_file_name = "config.yaml"
+    """Configure AppConfig to point at the config.yaml file."""
+    model_config = DriConfigConfigDict(
+        config_folder=".",
+        config_file_name="config.yaml",
+    )
 
     parameter_a: int
 
@@ -140,7 +151,8 @@ except ValidationError as e:
 """
 1 validation error for AppConfig
 parameter_a
-  value is not a valid integer (type=type_error.integer)
+  Input should be a valid integer, unable to parse string as an integer [type=int_parsing, input_value='some string', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.2/v/int_parsing
 """
 ```
 
@@ -152,18 +164,19 @@ In particular, also the default values behavior is preserved from Pydantic. This
 a default value for a given configuration, so that if the configuration is not present in the YAML
 configuration file, it gets the default value from the configuration class definition.
 
-```python hl_lines="17 32"
+```python hl_lines="18 33"
 from typing import List
 
-from driconfig import DriConfig
+from driconfig import DriConfig, DriConfigConfigDict
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
 
-    class Config:
-        """Configure AppConfig to point at the config.yaml file."""
-        config_folder = "."
-        config_file_name = "config.yaml"
+    """Configure AppConfig to point at the config.yaml file."""
+    model_config = DriConfigConfigDict(
+        config_folder=".",
+        config_file_name="config.yaml",
+    )
 
     parameter_a: str
     parameter_b: int
@@ -173,7 +186,7 @@ class AppConfig(DriConfig):
 
 app_config = AppConfig()
 
-print(app_config.json(indent=4))
+print(app_config.model_dump_json(indent=4))
 """
 {
     "parameter_a": "some string",
@@ -200,18 +213,19 @@ parameter_d: ["I'm", "a", "list"]
 parameter_e: "custom value"
 ```
 We see how it prevails over the default value:
-```python hl_lines="32"
+```python hl_lines="33"
 from typing import List
 
-from driconfig import DriConfig
+from driconfig import DriConfig, DriConfigConfigDict
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
 
-    class Config:
-        """Configure AppConfig to point at the config.yaml file."""
-        config_folder = "."
-        config_file_name = "config.yaml"
+    """Configure AppConfig to point at the config.yaml file."""
+    model_config = DriConfigConfigDict(
+        config_folder=".",
+        config_file_name="config.yaml",
+    )
 
     parameter_a: str
     parameter_b: int
@@ -221,7 +235,7 @@ class AppConfig(DriConfig):
 
 app_config = AppConfig()
 
-print(app_config.json(indent=4))
+print(app_config.model_dump_json(indent=4))
 """
 {
     "parameter_a": "some string",
