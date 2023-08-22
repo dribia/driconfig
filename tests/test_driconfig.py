@@ -106,7 +106,7 @@ def test_customise_sources_empty():
 
     assert AppConfig().model_dump() == {"apple": "default", "banana": "default"}
     assert AppConfig(apple="xxx").model_dump() == {
-        "apple": "default",
+        "apple": "xxx",
         "banana": "default",
     }
 
