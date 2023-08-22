@@ -9,7 +9,13 @@ import pytest
 from pydantic import ValidationError
 
 import driconfig
-from driconfig import DriConfig, InitConfigSource, YAMLConfigError, YamlConfigSource
+from driconfig import (
+    DriConfig,
+    DriConfigConfigDict,
+    InitConfigSource,
+    YAMLConfigError,
+    YamlConfigSource,
+)
 
 
 def test_version():
@@ -23,11 +29,11 @@ def test_driconfig(config_path):
     class AppConfig(DriConfig):
         """Test configuration."""
 
-        model_config = {
-            "config_folder": config_path,
-            "config_file_name": "config.yaml",
-            "case_sensitive": False,
-        }
+        model_config = DriConfigConfigDict(
+            config_folder=config_path,
+            config_file_name="config.yaml",
+            case_sensitive=False,
+        )
 
         foo: str
         case_sensitive: str = "is_case_sensitive"
@@ -43,11 +49,11 @@ def test_driconfig_insensitive(config_path):
     class AppConfig(DriConfig):
         """Test configuration."""
 
-        model_config = {
-            "config_folder": config_path,
-            "config_file_name": "config.yaml",
-            "case_sensitive": True,
-        }
+        model_config = DriConfigConfigDict(
+            config_folder=config_path,
+            config_file_name="config.yaml",
+            case_sensitive=True,
+        )
 
         foo: str
         case_sensitive: str = "is_case_sensitive"
@@ -115,11 +121,11 @@ def test_catch_on_non_str_key(config_path):
     """Test catch of the non-string key yaml case."""
 
     class AppConfig(DriConfig):
-        model_config = {
-            "config_folder": config_path,
-            "config_file_name": "config_non_str.yaml",
-            "case_sensitive": False,
-        }
+        model_config = DriConfigConfigDict(
+            config_folder=config_path,
+            config_file_name="config_non_str.yaml",
+            case_sensitive=False,
+        )
 
     app_config = AppConfig()
     assert isinstance(app_config, AppConfig)
@@ -129,10 +135,10 @@ def test_yaml_config_error(config_path):
     """Test the YAMLConfigError exception raising."""
 
     class AppConfig(DriConfig):
-        model_config = {
-            "config_folder": config_path,
-            "config_file_name": "config_non_mapping.yaml",
-        }
+        model_config = DriConfigConfigDict(
+            config_folder=config_path,
+            config_file_name="config_non_mapping.yaml",
+        )
 
     with pytest.raises(YAMLConfigError):
         _ = AppConfig()
