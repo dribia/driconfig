@@ -269,19 +269,19 @@ class YamlConfigSource(EnvSettingsSource):
     def __call__(self) -> dict[str, Any]:
         """Build variables from the YAML configuration file."""
         data: dict[str, Any] = super().__call__()
-        if self.config_file is not None:
-            config_path = Path(self.config_file).expanduser()
-            if config_path.is_file():
-                yaml_file = read_yaml_file(
-                    config_path,
-                    encoding=self.config_file_encoding,
-                    case_sensitive=self.case_sensitive,
-                )
-                if not isinstance(yaml_file, Mapping):
-                    raise YAMLConfigError(
-                        f"The YAML configuration file must be a "
-                        f"mapping and not a '{type(yaml_file).__name__}'."
-                    )
+        # if self.config_file is not None:
+        #     config_path = Path(self.config_file).expanduser()
+        #     if config_path.is_file():
+        #         yaml_file = read_yaml_file(
+        #             config_path,
+        #             encoding=self.config_file_encoding,
+        #             case_sensitive=self.case_sensitive,
+        #         )
+        #         if not isinstance(yaml_file, Mapping):
+        #             raise YAMLConfigError(
+        #                 f"The YAML configuration file must be a "
+        #                 f"mapping and not a '{type(yaml_file).__name__}'."
+        #             )
 
         # for field_name, field in self.settings_cls.model_fields.items():
         #     field_value, field_key, _ = self.get_field_value(field, field_name)
