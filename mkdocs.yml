@@ -15,7 +15,7 @@ nav:
   - Welcome to DriConfig: index.md
   - Installation: install.md
   - Usage:
-    - Introduction: usage/intro.md
+    - usage/introduction.md
     - usage/configdict.md
     - usage/nested_models.md
   - Contribute: contribute.md
