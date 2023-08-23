@@ -4,6 +4,7 @@ Dribia 2021/01/11, Albert Iribarne <iribarne@dribia.com>
 """
 
 import re
+from typing import Dict
 
 import pytest
 from pydantic import ValidationError
@@ -61,6 +62,27 @@ def test_driconfig_insensitive(config_path):
     app_config = AppConfig()
     assert isinstance(app_config.foo, str)
     assert app_config.case_sensitive == "is_case_sensitive"
+
+
+def test_driconfig_prefix(config_path):
+    """Test DriConfig."""
+
+    class AppConfig(DriConfig):
+        """Test configuration."""
+
+        model_config = DriConfigConfigDict(
+            config_folder=config_path,
+            config_file_name="config_prefix.yaml",
+            case_sensitive=False,
+            config_prefix="PRE_",
+        )
+
+        parent_config: Dict[str, float]
+
+    app_config = AppConfig()
+
+    assert isinstance(app_config.parent_config, dict)
+    assert app_config.parent_config["CHILD_CONFIG_A"] == 1
 
 
 def test_driconfig_fail():
