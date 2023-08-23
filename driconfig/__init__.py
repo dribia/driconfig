@@ -338,8 +338,8 @@ def read_yaml_file(
     """
     with open(file_path, "r", encoding=encoding or "utf8") as f:
         file_vars: dict[str, Any] = yaml.load(f, Loader=yaml.SafeLoader)
-        if config_prefix is not None:
-            file_vars = {k.replace(config_prefix, ""): v for k, v in file_vars.items()}
+    if config_prefix is not None:
+        file_vars = {k.replace(config_prefix, ""): v for k, v in file_vars.items()}
     if not case_sensitive:
         try:
             return {k.lower(): v for k, v in file_vars.items()}
