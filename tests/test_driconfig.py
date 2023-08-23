@@ -129,12 +129,12 @@ def test_customise_sources_empty():
         banana: str = "default"
 
         @classmethod
-        def customise_sources(cls, *args, **kwargs):
+        def config_customise_sources(cls, *args, **kwargs):
             return ()
 
     assert AppConfig().model_dump() == {"apple": "default", "banana": "default"}
     assert AppConfig(apple="xxx").model_dump() == {
-        "apple": "xxx",
+        "apple": "default",
         "banana": "default",
     }
 
