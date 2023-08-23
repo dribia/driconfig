@@ -246,29 +246,29 @@ class YamlConfigSource(EnvSettingsSource):
         """Load configuration variables from the YAML file."""
         return self._read_config_files(self.case_sensitive, self.config_prefix)
 
+    # TODO hribera 23/8/23: No pot ser llista.
     def _read_config_files(self, case_sensitive: bool, config_prefix: str):
         if self.config_file is None:
             return {}
         if isinstance(self.config_file, (str, os.PathLike)):
-            config_files = [self.config_file]
-        else:
-            config_files = self.config_file
+            config_file = self.config_file
+
         config_vars: dict[str, str | None] = {}
-        for config_file in config_files:
-            config_path = Path(config_file).expanduser()
-            if config_path.is_file():
-                yaml_file = read_yaml_file(
-                    config_path,
-                    encoding=self.config_file_encoding,
-                    case_sensitive=case_sensitive,
-                    config_prefix=config_prefix,
+
+        config_path = Path(config_file).expanduser()
+        if config_path.is_file():
+            yaml_file = read_yaml_file(
+                config_path,
+                encoding=self.config_file_encoding,
+                case_sensitive=case_sensitive,
+                config_prefix=config_prefix,
+            )
+            if not isinstance(yaml_file, Mapping):
+                raise YAMLConfigError(
+                    f"The YAML configuration file must be a "
+                    f"mapping and not a '{type(yaml_file).__name__}'."
                 )
-                if not isinstance(yaml_file, Mapping):
-                    raise YAMLConfigError(
-                        f"The YAML configuration file must be a "
-                        f"mapping and not a '{type(yaml_file).__name__}'."
-                    )
-                config_vars.update(yaml_file)
+            config_vars.update(yaml_file)
 
         return config_vars
 
