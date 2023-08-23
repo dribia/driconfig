@@ -1,5 +1,5 @@
 Being able to use Pydantic models to parse nested configurations on our YAML files is maybe the
-strongest point of Driconfig.
+strongest point of DriConfig.
 
 Let's say we have a YAML `config.yaml` file looking like this:
 

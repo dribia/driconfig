@@ -28,7 +28,7 @@ Please note which version of the library are you using whenever reporting a bug.
 python -c "import driconfig; print(driconfig.__version__)"
 ```
 
-It would be very useful too to know which OS and Python version are your running driconfig from.
+It would be very useful too to know which OS and Python version are your running DriConfig from.
 
 ## Contribute
 In order to contribute, the first step is to clone yourself the code:

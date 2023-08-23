@@ -1,4 +1,4 @@
-site_name: driconfig
+site_name: DriConfig
 site_description: Python class to read from .yaml config files
 strict: true
 
@@ -12,10 +12,10 @@ repo_name: dribia/driconfig
 repo_url: https://github.com/dribia/driconfig
 edit_uri: ''
 nav:
-  - driconfig: index.md
-  - Install: install.md
+  - Welcome to DriConfig: index.md
+  - Installation: install.md
   - Usage:
-    - usage/intro.md
+    - Introduction: usage/intro.md
     - usage/configdict.md
     - usage/nested_models.md
   - Contribute: contribute.md

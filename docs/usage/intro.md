@@ -1,4 +1,4 @@
-Driconfig mimics Pydantic's [Settings Management](https://pydantic-docs.helpmanual.io/usage/settings/)
+DriConfig mimics Pydantic's [Settings Management](https://pydantic-docs.helpmanual.io/usage/settings/)
 functionality, working with YAML configurations instead of environment variables or `.env` files.
 
 ## The YAML language
@@ -25,10 +25,10 @@ The above code block contains a sample configuration file written in the YAML la
     A YAML configuration file should always be a dictionary at its first level.
     The elements of this dictionary, then, could be of any type (scalars, lists or dictionaries).
 
-The goal of Driconfig is to provide an interface between your Python code and such YAML confguration files.
+The goal of DriConfig is to provide an interface between your Python code and such YAML confguration files.
 
 ## The DriConfig class
-Driconfig provides a base configuration class called `DriConfig`. This base class should be sub-classed in order
+DriConfig provides a base configuration class called `DriConfig`. This base class should be sub-classed in order
 to generate custom configuration classes that represent YAML configuration files.
 
 ```python
@@ -126,7 +126,7 @@ print(app_config.model_dump_json(indent=4))
 ```
 
 Note how we declared the configuration variable types following Pydantic's syntax.
-In fact, while parsing the `config.yaml` file Driconfig is performing **type validation**,
+In fact, while parsing the `config.yaml` file DriConfig is performing **type validation**,
 so that if your configuration variable value is of an undesired type it will raise a validation error.
 
 ```python
