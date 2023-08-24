@@ -17,9 +17,10 @@ from typing import (
 )
 
 import yaml
-from pydantic import BaseConfig, BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict
 from pydantic.fields import FieldInfo
-from pydantic.utils import deep_update
+from pydantic.v1.utils import deep_update
+from pydantic_settings import BaseSettings
 from pydantic_settings.sources import (
     EnvSettingsSource,
     InitSettingsSource,
@@ -35,7 +36,7 @@ class DriConfigConfigDict(ConfigDict, total=False):
 
     case_sensitive: bool
     config_file_name: str | None
-    config_folder: str | None
+    config_folder: Path | None
     config_file_encoding: str | None
     config_prefix: str | None
 
@@ -60,6 +61,7 @@ class DriConfig(BaseModel):
         _config_file_name: str | None = None,
         _config_folder: Path | str | None = None,
         _config_file_encoding: str | None = None,
+        _config_prefix: str | None = None,
         **values: Any,
     ) -> None:
         """Initialization parameters.
@@ -76,6 +78,7 @@ class DriConfig(BaseModel):
             _config_file_name: YAML configuration file name.
             _config_folder: YAML configuration folder.
             _config_file_encoding: YAML configuration file encoding.
+            _config_prefix: YAML configuration prefix.
             **values: Any config value.
         """
         # Uses something other than `self` the first arg
@@ -87,13 +90,14 @@ class DriConfig(BaseModel):
                 _config_file_name=_config_file_name,
                 _config_folder=_config_folder,
                 _config_file_encoding=_config_file_encoding,
+                _config_prefix=_config_prefix,
             )
         )
 
     @classmethod
     def config_customise_sources(
         cls,
-        settings_cls: Type["DriConfig"],
+        settings_cls: Type[DriConfig],
         init_config: PydanticBaseSettingsSource,
         yaml_config: PydanticBaseSettingsSource,
     ) -> tuple[PydanticBaseSettingsSource, ...]:
@@ -116,12 +120,13 @@ class DriConfig(BaseModel):
         _config_file_name: str | None = None,
         _config_folder: Path | str | None = None,
         _config_file_encoding: str | None = None,
+        _config_prefix: str | None = None,
     ) -> dict[str, Any]:
         """Build the configuration values based on init and YAML.
 
         We prioritize initialization values over configured values
         in the YAML file. However, the purpose of this class is to
-        defined the configuration values via a YAML configuration
+        define the configuration values via a YAML configuration
         file!
 
         Args:
@@ -129,6 +134,7 @@ class DriConfig(BaseModel):
             _config_file_name: YAML configuration file name.
             _config_folder: YAML configuration folder.
             _config_file_encoding: YAML configuration file encoding.
+            _config_prefix: YAML configuration prefix.
 
         Returns: The value dictionary.
 
@@ -153,16 +159,27 @@ class DriConfig(BaseModel):
             if _config_file_encoding is not None
             else self.model_config.get("config_file_encoding")
         )
-        init_config = InitSettingsSource(self.__class__, init_kwargs=init_kwargs)
+        config_prefix = (
+            _config_prefix
+            if _config_prefix is not None
+            else self.model_config.get("config_prefix")
+        )
+        init_config = InitSettingsSource(
+            self.__class__,  # type: ignore
+            init_kwargs=init_kwargs,
+        )
         yaml_config = YamlConfigSource(
             self.__class__,  # type: ignore
             config_file_name=config_file_name,
             config_folder=config_folder,
             config_file_encoding=config_file_encoding,
+            config_prefix=config_prefix,
             case_sensitive=case_sensitive,
         )
         sources = self.config_customise_sources(
-            self.__class__, init_config=init_config, yaml_config=yaml_config
+            self.__class__,
+            init_config=init_config,
+            yaml_config=yaml_config,
         )
         if sources:
             return deep_update(*reversed([source() for source in sources]))
@@ -190,15 +207,16 @@ class InitConfigSource(InitSettingsSource):
 
 
 class YamlConfigSource(EnvSettingsSource):
-    """Configuration source from the a YAML configuration file."""
+    """Configuration source from the YAML configuration file."""
 
     def __init__(
         self,
-        settings_cls: Type[BaseConfig],
+        settings_cls: Type[BaseSettings],
         config_file_name: str | None = None,
         config_folder: Path | str | None = None,
         config_file_encoding: str | None = None,
         case_sensitive: bool | None = None,
+        config_prefix: str | None = None,
     ):
         """Initialize the YAML configurations source.
 
@@ -208,7 +226,7 @@ class YamlConfigSource(EnvSettingsSource):
             config_folder: YAML configuration folder.
             config_file_encoding: YAML configuration encoding.
             case_sensitive: Whether to use case-sensitive keys.
-
+            config_prefix: YAML configuration prefix.
         """
         super().__init__(
             settings_cls,
@@ -218,6 +236,7 @@ class YamlConfigSource(EnvSettingsSource):
         )
         self.config_file: Path | None = None
         self.case_sensitive: bool = case_sensitive
+        self.config_prefix: str = config_prefix
         if config_file_name is not None and config_folder is not None:
             self.config_file = Path(config_folder) / config_file_name
         self.config_file_encoding: str | None = config_file_encoding
@@ -225,26 +244,30 @@ class YamlConfigSource(EnvSettingsSource):
 
     def _load_config_vars(self) -> dict[str, Any]:
         """Load configuration variables from the YAML file."""
-        return self._read_config_files(self.case_sensitive)
+        return self._read_config_files(self.case_sensitive, self.config_prefix)
 
-    def _read_config_files(self, case_sensitive: bool):
+    def _read_config_files(self, case_sensitive: bool, config_prefix: str):
         if self.config_file is None:
             return {}
         if isinstance(self.config_file, (str, os.PathLike)):
-            config_files = [self.config_file]
-        else:
-            config_files = self.config_file
+            config_file = self.config_file
+
         config_vars: dict[str, str | None] = {}
-        for config_file in config_files:
-            config_path = Path(config_file).expanduser()
-            if config_path.is_file():
-                config_vars.update(
-                    read_yaml_file(
-                        config_path,
-                        encoding=self.config_file_encoding,
-                        case_sensitive=case_sensitive,
-                    )
+
+        config_path = Path(config_file).expanduser()
+        if config_path.is_file():
+            yaml_file = read_yaml_file(
+                config_path,
+                encoding=self.config_file_encoding,
+                case_sensitive=case_sensitive,
+                config_prefix=config_prefix,
+            )
+            if not isinstance(yaml_file, Mapping):
+                raise YAMLConfigError(
+                    f"The YAML configuration file must be a "
+                    f"mapping and not a '{type(yaml_file).__name__}'."
                 )
+            config_vars.update(yaml_file)
 
         return config_vars
 
@@ -256,37 +279,6 @@ class YamlConfigSource(EnvSettingsSource):
             deep_update(value, self.explode_env_vars(field_name, field, self.env_vars))
         return value
 
-    def __call__(self) -> dict[str, Any]:
-        """Build variables from the YAML configuration file."""
-        data: dict[str, Any] = super().__call__()
-        if self.config_file is not None:
-            config_path = Path(self.config_file).expanduser()
-            if config_path.is_file():
-                yaml_file = read_yaml_file(
-                    config_path,
-                    encoding=self.config_file_encoding,
-                    case_sensitive=self.case_sensitive,
-                )
-                if not isinstance(yaml_file, Mapping):
-                    raise YAMLConfigError(
-                        f"The YAML configuration file must be a "
-                        f"mapping and not a '{type(yaml_file).__name__}'."
-                    )
-
-        # for field_name, field in self.settings_cls.model_fields.items():
-        #     field_value, field_key, _ = self.get_field_value(field, field_name)
-        #     config_val: str | None = None
-        #     for config_name in field.field_info.extra["config_names"]:
-        #         config_val = config_vars.get(config_name)
-        #         if config_val is not None:
-        #             break
-        #
-        #     if config_val is None:
-        #         continue
-        #
-        #     data[field.alias] = config_val
-        return data
-
     def __repr__(self) -> str:
         """Class representation."""
         return (
@@ -296,7 +288,11 @@ class YamlConfigSource(EnvSettingsSource):
 
 
 def read_yaml_file(
-    file_path: Path, *, encoding: str = None, case_sensitive: bool = False
+    file_path: Path,
+    *,
+    encoding: str = None,
+    case_sensitive: bool = False,
+    config_prefix: str = None,
 ) -> dict[str, str | None]:
     """Parse a YAML configuration file.
 
@@ -304,12 +300,14 @@ def read_yaml_file(
         file_path: YAML configuration file path.
         encoding: YAML configuration file encoding.
         case_sensitive: Whether read variables case-sensitively.
-
+        config_prefix: YAML configuration prefix.
     Returns: Parsed YAML configuration file.
 
     """
     with open(file_path, "r", encoding=encoding or "utf8") as f:
         file_vars: dict[str, Any] = yaml.load(f, Loader=yaml.SafeLoader)
+    if config_prefix is not None:
+        file_vars = {k.replace(config_prefix, ""): v for k, v in file_vars.items()}
     if not case_sensitive:
         try:
             return {k.lower(): v for k, v in file_vars.items()}

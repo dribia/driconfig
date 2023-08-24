@@ -66,3 +66,9 @@ target/
 
 # pytest
 .pytest_cache/
+
+# python scripts to run stuff
+python_scripts
+
+# config file to test stuff.
+dummy_config.yaml
