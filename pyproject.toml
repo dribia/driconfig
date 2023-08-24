@@ -15,8 +15,8 @@ documentation = "https://dribia.github.io/driconfig"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
-pydantic = "^1.9.0"
 PyYAML = "^6.0"
+pydantic-settings = "^2.0.1"
 
 [tool.poetry.group.lint.dependencies]
 pre-commit = "3.2.0"

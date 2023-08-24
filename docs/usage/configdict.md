@@ -1,12 +1,15 @@
-## Pydantic's `Config` class
-A Pydantic model's internal `Config` class controls many aspects of its functionality.
-An exhaustive list can be found in [Pydantic's documentation](https://pydantic-docs.helpmanual.io/usage/model_config/).
+# ConfigDict
 
-The `DriConfig` class, as it inherits from Pydantic's `BaseModel`, has all these configuration options available.
+## Pydantic's ConfigDict dictionary
+
+A Pydantic model's internal `ConfigDict` dictionary controls many aspects of its functionality.
+An exhaustive list can be found in [Pydantic's documentation](https://docs.pydantic.dev/latest/api/config/#pydantic.config.ConfigDict).
+
+The `DriConfigConfigDict` dictionary, as it inherits from Pydantic's `BaseModel`, has all these configuration options available.
 
 However, we have added some new configuration options, and modified some of its defaults.
 
-## DriConfig's `Config` class.
+## DriConfigConfigDict's dictionary.
 
 ### New configurations
 
@@ -37,24 +40,24 @@ However, we have added some new configuration options, and modified some of its 
 
     from typing import Dict
 
-    from driconfig import DriConfig
+    from driconfig import DriConfig, DriConfigConfigDict
 
 
     class AppConfig(DriConfig):
         """Configuration class to parse the config.yaml file contents."""
 
-        class Config:
-            """Configure AppConfig to point at the config.yaml file."""
-
-            config_folder = "."
-            config_file_name = "config.yaml"
-            config_prefix = "PRE_"
+        """Configure AppConfig to point at the config.yaml file."""
+        model_config = DriConfigConfigDict(
+            config_folder=".",
+            config_file_name="config.yaml",
+            config_prefix = "PRE_",
+        )
 
         PARENT_CONFIG: Dict[str, float]
 
 
     app_config = AppConfig()
-    print(app_config.json(indent=4))
+    print(app_config.model_dump_json(indent=4))
     """
     {
         "PARENT_CONFIG": {
@@ -69,6 +72,6 @@ However, we have added some new configuration options, and modified some of its 
 
 | Field            | Type (default)         | Description                                      |
 |------------------|---------------|--------------------------------------------------|
-| `validate_all` | `bool` (`True`) | Defaults to `True` so that validation is done in YAML file parsing. |
+| `validate_default` | `bool` (`True`) | Defaults to `True` so that validation is done in YAML file parsing. |
 | `arbitrary_types_allowed` | `bool` (`True`) | Allow arbitrary types by default. |
 | `extra` | `str` (`forbid`) | Forbid extra arguments on initialization by default. |

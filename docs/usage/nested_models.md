@@ -1,5 +1,5 @@
 Being able to use Pydantic models to parse nested configurations on our YAML files is maybe the
-strongest point of Driconfig.
+strongest point of DriConfig.
 
 Let's say we have a YAML `config.yaml` file looking like this:
 
@@ -27,24 +27,24 @@ Let's parse the `model_parameters` configuration as an arbitrary dictionary.
 from datetime import date
 from typing import Any, Dict
 
-from driconfig import DriConfig
+from driconfig import DriConfig, DriConfigConfigDict
 
 
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
 
-    class Config:
-        """Configure AppConfig to point at the config.yaml file."""
-
-        config_folder = "."
-        config_file_name = "config.yaml"
+    """Configure AppConfig to point at the config.yaml file."""
+    model_config = DriConfigConfigDict(
+        config_folder=".",
+        config_file_name="config.yaml",
+    )
 
     timeout: int
     min_date: date
     model_parameters: Dict[str, Any]
 
 app_config = AppConfig()
-print(app_config.json(indent=4))
+print(app_config.model_dump_json(indent=4))
 """
 {
     "timeout": 1000,
@@ -73,7 +73,7 @@ from datetime import date
 
 from pydantic import BaseModel
 
-from driconfig import DriConfig
+from driconfig import DriConfig, DriConfigConfigDict
 
 
 class ModelParameters(BaseModel):
@@ -87,18 +87,18 @@ class ModelParameters(BaseModel):
 class AppConfig(DriConfig):
     """Configuration class to parse the config.yaml file contents."""
 
-    class Config:
-        """Configure AppConfig to point at the config.yaml file."""
-
-        config_folder = "."
-        config_file_name = "config.yaml"
+    """Configure AppConfig to point at the config.yaml file."""
+    model_config = DriConfigConfigDict(
+        config_folder=".",
+        config_file_name="config.yaml",
+    )
 
     timeout: int
     min_date: date
     model_parameters: ModelParameters
 
 app_config = AppConfig()
-print(app_config.json(indent=4))
+print(app_config.model_dump_json(indent=4))
 """
 {
     "timeout": 1000,

@@ -1,3 +1,5 @@
+# DriConfig
+
 <p style="text-align: center; padding-bottom: 1rem;">
     <a href="https://dribia.github.io/driconfig">
         <img
@@ -64,12 +66,12 @@ date_interval:
   start: 2021-01-01
   end: 2021-12-31
 ```
-Then we can parse with `driconfig` as follows:
+Then we can configparse with `driconfig` as follows:
 ```python
 from datetime import date
 from typing import Dict
 
-from driconfig import DriConfig
+from driconfig import DriConfig, DriConfigConfigDict
 from pydantic import BaseModel
 
 
@@ -82,17 +84,16 @@ class DateInterval(BaseModel):
 class AppConfig(DriConfig):
    """Interface for the config/config.yaml file."""
 
-   class Config:
-       """Configure the YAML file location."""
-
-       config_folder = "."
-       config_file_name = "config.yaml"
-
+    """Configure the YAML file location."""
+    model_config = DriConfigConfigDict(
+        config_folder=".",
+        config_file_name="config.yaml",
+    )
    model_parameters: Dict[str, float]
    date_interval: DateInterval
 
 config = AppConfig()
-print(config.json(indent=4))
+print(config.model_dump_json(indent=4))
 """
 {
     "model_parameters": {
