@@ -17,6 +17,9 @@
 <a href="https://github.com/dribia/driconfig/actions?query=workflow%3APublish" target="_blank">
     <img src="https://github.com/dribia/driconfig/workflows/Publish/badge.svg" alt="Publish">
 </a>
+<a href="https://github.com/dribia/driconfig/actions?query=workflow%3ADocs" target="_blank">
+    <img src="https://github.com/dribia/driconfig/workflows/Docs/badge.svg" alt="Docs">
+</a>
 <a href="https://codecov.io/gh/dribia/driconfig" target="_blank">
     <img src="https://img.shields.io/codecov/c/github/dribia/driconfig?color=%2334D058" alt="Coverage">
 </a>
