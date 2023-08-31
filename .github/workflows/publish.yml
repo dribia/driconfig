@@ -10,17 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: JRubics/poetry-publish@v1.17
         with:
-          python-version: "3.8"
-      - name: Install Poetry
-        run: curl -sSL https://install.python-poetry.org | python -
-      - name: Build Package
-        run: poetry build
-      - name: Publish
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
-          POETRY_HTTP_BASIC_PYPI_USERNAME: ${{ secrets.POETRY_HTTP_BASIC_PYPI_USERNAME }}
-          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{ secrets.POETRY_HTTP_BASIC_PYPI_PASSWORD }}
-        run: bash scripts/publish.sh
+          pypi_token: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
