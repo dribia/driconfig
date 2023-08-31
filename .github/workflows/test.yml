@@ -15,17 +15,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: snok/install-poetry@v1
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install Poetry
-        run: curl -sSL https://install.python-poetry.org | python -
+          cache: 'poetry'
       - name: Install Dependencies
         run: poetry install
       - name: Lint
         run: bash scripts/lint.sh
       - name: Test
         run: bash scripts/test.sh
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v3
