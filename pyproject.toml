@@ -19,7 +19,7 @@ PyYAML = "^6.0"
 pydantic-settings = "^2.0.1"
 
 [tool.poetry.group.lint.dependencies]
-pre-commit = "3.3.3"
+pre-commit = "3.4.0"
 black = "23.7.0"
 ruff = "0.0.287"
 mypy = "1.5.1"
