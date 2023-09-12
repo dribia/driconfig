@@ -21,7 +21,7 @@ pydantic-settings = "^2.0.1"
 [tool.poetry.group.lint.dependencies]
 pre-commit = "3.4.0"
 black = "23.9.1"
-ruff = "0.0.287"
+ruff = "0.0.288"
 mypy = "1.5.1"
 types-PyYAML = "^6.0.12"
 
