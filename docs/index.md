@@ -27,7 +27,7 @@
     <img src="https://img.shields.io/pypi/v/driconfig?color=%2334D058&label=pypi%20package" alt="PyPI version">
 </a>
 <a href="https://pypistats.org/packages/driconfig" target="_blank">
-    <img src="https://img.shields.io/pypi/dm/driconfig.svg" alt="PyPI downloads">
+    <img src="https://img.shields.io/pypi/dm/driconfig?color=%2334D058" alt="PyPI downloads">
 </a>
 </p>
 
