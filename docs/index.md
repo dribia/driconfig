@@ -24,7 +24,10 @@
     <img src="https://img.shields.io/codecov/c/github/dribia/driconfig?color=%2334D058" alt="Coverage">
 </a>
 <a href="https://pypi.org/project/driconfig" target="_blank">
-    <img src="https://img.shields.io/pypi/v/driconfig?color=%2334D058&label=pypi%20package" alt="Package version">
+    <img src="https://img.shields.io/pypi/v/driconfig?color=%2334D058&label=pypi%20package" alt="PyPI version">
+</a>
+<a href="https://pypistats.org/packages/driconfig" target="_blank">
+    <img src="https://img.shields.io/pypi/dm/driconfig.svg" alt="PyPI downloads">
 </a>
 </p>
 
