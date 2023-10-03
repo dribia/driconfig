@@ -10,6 +10,6 @@ updates:
     schedule:
       interval: "weekly"
     allow:
-      - dependency-type: "all"
+      - dependency-type: "direct"
     commit-message:
       prefix: ":arrow_up:"
