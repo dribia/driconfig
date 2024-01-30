@@ -4,6 +4,7 @@ This module is heavily inspired in Pydantic's Settings management.
 
 Dribia Data Research 2021
 """
+
 from __future__ import annotations as _annotations
 
 import os
