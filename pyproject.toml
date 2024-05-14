@@ -20,7 +20,6 @@ pydantic-settings = "^2.0.1"
 
 [tool.poetry.group.lint.dependencies]
 pre-commit = "3.5.0"
-black = "24.4.2"
 ruff = "0.4.4"
 mypy = "1.10.0"
 types-PyYAML = "^6.0.12"
@@ -45,7 +44,7 @@ select = [
     "D",  # pydocstyle
 ]
 ignore = [
-    "E501",  # line too long, handled by black
+    "E501",
 ]
 
 [tool.ruff.pydocstyle]
