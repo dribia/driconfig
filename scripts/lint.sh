@@ -3,6 +3,6 @@
 set -e
 set -x
 
-poetry run ruff format driconfig tests
+poetry run ruff format driconfig tests --check
 poetry run ruff check driconfig tests
 poetry run mypy driconfig
