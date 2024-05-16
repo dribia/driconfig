@@ -33,7 +33,7 @@ pytest-cov = "^4.0.0"
 mkdocs = "^1.4.2"
 mkdocs-material = "^9.1.3"
 
-[tool.ruff]
+[tool.ruff.lint]
 select = [
     "E",  # pycodestyle errors
     "W",  # pycodestyle warnings
@@ -61,7 +61,7 @@ ignore = [
     "ISC002",
 ]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.mypy]
