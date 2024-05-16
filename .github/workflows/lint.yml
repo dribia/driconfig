@@ -21,6 +21,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'poetry'
       - name: Install Dependencies
-        run: poetry install --only main,ci,lint
+        run: poetry install --only main,lint
       - name: Lint
         run: bash scripts/lint.sh
