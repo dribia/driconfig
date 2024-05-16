@@ -1,4 +1,4 @@
-name: Test
+name: Lint
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.11']
       fail-fast: false
 
     steps:
@@ -21,7 +21,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'poetry'
       - name: Install Dependencies
-        run: poetry install --only main,test
-      - name: Test
-        run: bash scripts/test.sh
-      - uses: codecov/codecov-action@v3
+        run: poetry install --only main,lint
+      - name: Lint
+        run: bash scripts/lint.sh
