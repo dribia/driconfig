@@ -11,8 +11,11 @@
 </p>
 
 <p style="text-align: center">
-    <a href="https://github.com/dribia/driconfig/actions?query=workflow%3ATest" target="_blank">
+<a href="https://github.com/dribia/driconfig/actions?query=workflow%3ATest" target="_blank">
     <img src="https://github.com/dribia/driconfig/workflows/Test/badge.svg" alt="Test">
+</a>
+<a href="https://github.com/dribia/driconfig/actions?query=workflow%3ALint" target="_blank">
+    <img src="https://github.com/dribia/driconfig/workflows/Lint/badge.svg" alt="Lint">
 </a>
 <a href="https://github.com/dribia/driconfig/actions?query=workflow%3APublish" target="_blank">
     <img src="https://github.com/dribia/driconfig/workflows/Publish/badge.svg" alt="Publish">
