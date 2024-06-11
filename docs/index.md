@@ -1,6 +1,6 @@
 # DriConfig
 
-<p style="text-align: center; padding-bottom: 1rem;">
+<p align="center">
     <a href="https://dribia.github.io/driconfig">
         <picture style="display: block; margin-left: auto; margin-right: auto; width: 40%;">
             <source
