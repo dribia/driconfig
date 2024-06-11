@@ -1,7 +1,7 @@
 # DriConfig
 
-<p style="text-align: center; padding-bottom: 1rem; width: 40%">
-    <a href="https://dribia.github.io/driconfig">
+<p style="text-align: center; padding-bottom: 1rem;">
+    <a href="https://dribia.github.io/driconfig" style="display: block; margin-left: auto; margin-right: auto; width: 40%;">
         <picture>
             <source
                 media="(prefers-color-scheme: dark)"
