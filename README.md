@@ -1,12 +1,21 @@
 # DriConfig
 
-<p style="text-align: center; padding-bottom: 1rem;">
+<p align="center">
     <a href="https://dribia.github.io/driconfig">
-        <img
-            src="https://dribia.github.io/driconfig/img/logo_dribia_blau_cropped.png"
-            alt="driconfig"
-            style="display: block; margin-left: auto; margin-right: auto; width: 40%;"
-        >
+        <picture style="display: block; margin-left: auto; margin-right: auto; width: 40%;">
+            <source
+                media="(prefers-color-scheme: dark)"
+                srcset="https://dribia.github.io/driconfig/img/logo_dribia_blanc_cropped.png"
+            >
+            <source
+                media="(prefers-color-scheme: light)"
+                srcset="https://dribia.github.io/driconfig/img/logo_dribia_blau_cropped.png"
+            >
+            <img
+                alt="driconfig"
+                src="https://dribia.github.io/driconfig/img/logo_dribia_blau_cropped.png"
+            >
+        </picture>
     </a>
 </p>
 
