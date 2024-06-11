@@ -2,11 +2,15 @@
 
 <p style="text-align: center; padding-bottom: 1rem;">
     <a href="https://dribia.github.io/driconfig">
-        <img
-            src="https://dribia.github.io/driconfig/img/logo_dribia_blau_cropped.png"
+        <picture>
+         <source media="(prefers-color-scheme: dark)" srcset="https://github.com/dribia/driconfig/blob/185-show-dribia-logo-according-to-theme/docs/img/logo_dribia_blanc_cropped.png">
+         <source media="(prefers-color-scheme: light)" srcset="https://github.com/dribia/driconfig/blob/185-show-dribia-logo-according-to-theme/docs/img/logo_dribia_blau_cropped.png">
+         <img
             alt="driconfig"
+            src="https://github.com/dribia/driconfig/blob/185-show-dribia-logo-according-to-theme/docs/img/logo_dribia_blau_cropped.png"
             style="display: block; margin-left: auto; margin-right: auto; width: 40%;"
         >
+        </picture>
     </a>
 </p>
 
