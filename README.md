@@ -1,12 +1,12 @@
 <style>
-    picture {display: block; margin-left: auto; margin-right: auto; width: 40%;}
+    .logo {display: block; margin-left: auto; margin-right: auto; width: 40%;}
 </style>
 
 # DriConfig
 
 <p style="text-align: center; padding-bottom: 1rem;">
     <a href="https://dribia.github.io/driconfig">
-        <picture>
+        <picture class="logo">
             <source
                 media="(prefers-color-scheme: dark)"
                 srcset="https://github.com/dribia/driconfig/blob/185-show-dribia-logo-according-to-theme/docs/img/logo_dribia_blanc_cropped.png"
