@@ -1,0 +1,10 @@
+{
+  "ruff": {
+    "repo": "https://github.com/astral-sh/ruff",
+    "rev": "v${rev}"
+  },
+  "mypy": {
+    "repo": "https://github.com/pre-commit/mirrors-mypy",
+    "rev": "v${rev}"
+  }
+}
