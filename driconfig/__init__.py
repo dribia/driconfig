@@ -187,20 +187,25 @@ class DriConfig(BaseModel):
         else:
             return {}
 
-    def save_config(self, config_file: str | Path | None = None) -> None:
+    def save_config(self, config_file: str | Path | None = None, **kwargs) -> None:
         """Save the configuration to a YAML file.
 
         Args:
             config_file: The configuration file path.
+            kwargs: Additional keyword arguments to pass to `model_dump`.
         """
+        if "mode" not in kwargs:
+            kwargs["mode"] = "json"
         if config_file is None:
-            config_file = Path(self.model_config.get("config_folder")) / self.model_config.get("config_file_name")
+            config_file = Path(
+                self.model_config.get("config_folder")
+            ) / self.model_config.get("config_file_name")
         write_yaml_file(
-            self.model_dump(mode="json"),
+            self.model_dump(**kwargs),
             config_file,
             encoding=self.model_config.get("config_file_encoding"),
             case_sensitive=self.model_config.get("case_sensitive"),
-            config_prefix=self.model_config.get("config_prefix")
+            config_prefix=self.model_config.get("config_prefix"),
         )
 
     model_config: ClassVar[DriConfigConfigDict] = DriConfigConfigDict(
@@ -335,12 +340,12 @@ def read_yaml_file(
 
 
 def write_yaml_file(
-        data: dict[str, Any],
-        file_path: Path,
-        *,
-        encoding: str = None,
-        case_sensitive: bool = False,
-        config_prefix: str = None,
+    data: dict[str, Any],
+    file_path: Path | str | None,
+    *,
+    encoding: str = None,
+    case_sensitive: bool = False,
+    config_prefix: str = None,
 ) -> None:
     """Write a dictionary to a YAML configuration file.
 
