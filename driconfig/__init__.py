@@ -187,6 +187,22 @@ class DriConfig(BaseModel):
         else:
             return {}
 
+    def save_config(self, config_file: str | Path | None = None) -> None:
+        """Save the configuration to a YAML file.
+
+        Args:
+            config_file: The configuration file path.
+        """
+        if config_file is None:
+            config_file = Path(self.model_config.get("config_folder")) / self.model_config.get("config_file_name")
+        write_yaml_file(
+            self.model_dump(mode="json"),
+            config_file,
+            encoding=self.model_config.get("config_file_encoding"),
+            case_sensitive=self.model_config.get("case_sensitive"),
+            config_prefix=self.model_config.get("config_prefix")
+        )
+
     model_config: ClassVar[DriConfigConfigDict] = DriConfigConfigDict(
         extra="forbid",
         arbitrary_types_allowed=True,
@@ -316,3 +332,36 @@ def read_yaml_file(
             return file_vars
     else:
         return file_vars
+
+
+def write_yaml_file(
+        data: dict[str, Any],
+        file_path: Path,
+        *,
+        encoding: str = None,
+        case_sensitive: bool = False,
+        config_prefix: str = None,
+) -> None:
+    """Write a dictionary to a YAML configuration file.
+
+    Args:
+        data: Dictionary to write to the YAML file.
+        file_path: Path to the output YAML file.
+        encoding: Encoding for the output YAML file.
+        case_sensitive: Whether to write variables case-sensitively.
+        config_prefix: Prefix to add to each key in the YAML file.
+
+    Returns:
+        None
+    """
+    # Apply prefix if provided
+    if config_prefix is not None:
+        data = {config_prefix + k: v for k, v in data.items()}
+
+    # Adjust case sensitivity of keys
+    if not case_sensitive:
+        data = {k.lower(): v for k, v in data.items()}
+
+    # Write the dictionary to a YAML file
+    with open(file_path, "w", encoding=encoding or "utf8") as f:
+        yaml.dump(data, f, allow_unicode=True, default_flow_style=False)
