@@ -20,7 +20,7 @@ DriConfig
     </a>
 </p>
 
-<p style="text-align: center;">
+<p align="center">
     <em>A Pydantic-ish way to manage your project's YAML configurations.</em>
 </p>
 
