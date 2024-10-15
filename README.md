@@ -114,7 +114,7 @@ print(config.model_dump_json(indent=4))
 
 ## Contributing
 
-[Poetry](https://python-poetry.org) is the best way to interact with this project, to install it,
+[Poetry](https://python-poetry.org) is the best way to interact with this project. To install it,
 follow the official [Poetry installation guide](https://python-poetry.org/docs/#installation).
 
 With `poetry` installed, one can install the project dependencies with:
