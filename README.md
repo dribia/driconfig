@@ -1,4 +1,5 @@
-# DriConfig
+DriConfig
+==========================
 
 <p align="center">
     <a href="https://dribia.github.io/driconfig">
@@ -19,34 +20,14 @@
     </a>
 </p>
 
-<p style="text-align: center">
-<a href="https://github.com/dribia/driconfig/actions?query=workflow%3ATest" target="_blank">
-    <img src="https://github.com/dribia/driconfig/workflows/Test/badge.svg?query=branch%3Amain" alt="Test">
-</a>
-<a href="https://github.com/dribia/driconfig/actions?query=workflow%3ALint" target="_blank">
-    <img src="https://github.com/dribia/driconfig/workflows/Lint/badge.svg?query=branch%3Amain" alt="Lint">
-</a>
-<a href="https://github.com/dribia/driconfig/actions?query=workflow%3APublish" target="_blank">
-    <img src="https://github.com/dribia/driconfig/workflows/Publish/badge.svg?query=branch%3Amain" alt="Publish">
-</a>
-<a href="https://github.com/dribia/driconfig/actions?query=workflow%3ADocs" target="_blank">
-    <img src="https://github.com/dribia/driconfig/workflows/Docs/badge.svg?query=branch%3Amain" alt="Docs">
-</a>
-<a href="https://codecov.io/gh/dribia/driconfig" target="_blank">
-    <img src="https://img.shields.io/codecov/c/github/dribia/driconfig?color=%2334D058" alt="Coverage">
-</a>
-<a href="https://pypi.org/project/driconfig" target="_blank">
-    <img src="https://img.shields.io/pypi/v/driconfig?color=%2334D058&label=pypi%20package" alt="PyPI version">
-</a>
-<a href="https://pypistats.org/packages/driconfig" target="_blank">
-    <img src="https://img.shields.io/pypi/dm/driconfig?color=%2334D058" alt="PyPI downloads">
-</a>
-</p>
-
 <p style="text-align: center;">
     <em>A Pydantic-ish way to manage your project's YAML configurations.</em>
 </p>
 
+|         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CI/CD   | [![Tests](https://github.com/dribia/driconfig/workflows/Test/badge.svg?query=branch%3Amain)](https://github.com/dribia/driconfig/actions?query=workflow%3ATest) [![Coverage Status](https://img.shields.io/codecov/c/github/dribia/driconfig?color=%2334D058)](https://codecov.io/gh/dribia/driconfig) [![Tests](https://github.com/dribia/driconfig/workflows/Lint/badge.svg?query=branch%3Amain)](https://github.com/dribia/driconfig/actions?query=workflow%3ALint) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/python/mypy) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) |
+| Package | [![PyPI](https://img.shields.io/pypi/v/driconfig)](https://pypi.org/project/driconfig) ![PyPI - Downloads](https://img.shields.io/pypi/dm/driconfig?color=blue&logo=pypi&logoColor=gold) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/driconfig?logo=python&logoColor=gold) [![GitHub](https://img.shields.io/github/license/dribia/driconfig?color=blue)](LICENSE)                                                                                                                                                                                                                                                                                                                                                  |
 ---
 
 **Documentation**: <a href="https://dribia.github.io/driconfig" target="_blank">https://dribia.github.io/driconfig</a>
@@ -56,22 +37,26 @@
 ---
 
 The usage of YAML files to store configurations and parameters is widely accepted in the Python
-community, especially in Data Science environments.
+community, especially in Data Science environments. DriConfig provides a clean interface between your Python code and these YAML configuration files.
 
-DriConfig provides a clean interface between your Python code and these YAML configuration files.
+## Installation
 
-It is heavily based on [Pydantic](https://pydantic-docs.helpmanual.io)'s [Settings Management](https://pydantic-docs.helpmanual.io/usage/settings/),
-preserving its core functionalities and advantages.
+This project resides in the Python Package Index (PyPI), so it can easily be installed with `pip`:
 
-## Key features
+```console
+pip install driconfig
+```
 
-* Subclassing the `DriConfig` class we create an **interface to any YAML configuration file**.
-* Our project's **configurations are** then **attributes** of this class.
-* They are **automatically filled** with the values in the YAML configuration file.
-* We can define **complex configuration structures** using Pydantic models.
-* We preserve Pydantic's **type casting and validation**!
+## Usage
 
-## Example
+You can import the `DriConfig` class from the `driconfig` package and create your own configuration classes.
+
+```python
+from driconfig import DriConfig
+```
+
+### Examples
+
 Let's say we have a YAML configuration file `config.yaml` with the following data:
 ```yaml
 # config.yaml
@@ -126,3 +111,32 @@ print(config.model_dump_json(indent=4))
 }
 """
 ```
+
+## Contributing
+
+[Poetry](https://python-poetry.org) is the best way to interact with this project, to install it,
+follow the official [Poetry installation guide](https://python-poetry.org/docs/#installation).
+
+With `poetry` installed, one can install the project dependencies with:
+
+```shell
+poetry install
+```
+
+Then, to run the project unit tests:
+
+```shell
+bash scripts/test.sh
+```
+
+To run the linters (`ruff` and `mypy`):
+
+```shell
+bash scripts/lint.sh
+```
+
+## License
+
+`driconfig` is distributed under the terms of the
+[MIT](https://opensource.org/license/mit) license.
+Check the [LICENSE](./LICENSE) file for further details.
