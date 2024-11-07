@@ -1,4 +1,4 @@
-.PHONY: all clean check test codestyle docstyle lint pip
+.PHONY: all clean check format test lint bump-version
 
 PROJECT ?= driconfig
 TESTS ?= tests
