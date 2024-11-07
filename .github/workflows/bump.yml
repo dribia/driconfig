@@ -1,0 +1,113 @@
+name: Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        required: true
+        type: choice
+        options:
+          - 'major'
+          - 'minor'
+          - 'patch'
+        default: 'patch'
+      keep-release-branch:
+        description: 'Keep release branch'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  create-release-branch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: snok/install-poetry@v1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+      - name: Bump version
+        id: bump-version
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          make bump-version COMMIT_VERSION=${{ github.event.inputs.version }}
+          NEW_VERSION=v$(poetry version -s)
+          git tag -d $NEW_VERSION 2> /dev/null
+          echo "::add-mask::$NEW_VERSION"
+          echo "new-version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+      - name: Push branch
+        uses: ad-m/github-push-action@master
+        with:
+          branch: release/${{ steps.bump-version.outputs.new-version }}
+      - name: Encrypt tag
+        id: encrypt-tag
+        shell: bash
+        run: |
+          NEW_VERSION=${{ steps.bump-version.outputs.new-version }};
+          BINARY_ENCRYPTED_SECRET=$(echo -n "$NEW_VERSION" | openssl enc -e -a -k "password" | base64);
+          echo "encrypted-version=$BINARY_ENCRYPTED_SECRET" >> $GITHUB_OUTPUT
+    outputs:
+      encrypted-version: ${{ steps.encrypt-tag.outputs.encrypted-version }}
+
+  create-pull-request:
+    needs: [create-release-branch]
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: 'write'
+      contents: 'write'
+      id-token: 'write'
+    steps:
+      - name: Decrypt tag
+        id: decrypt-tag
+        shell: bash
+        run: |
+          ENCRYPTED_SECRET=${{ needs.create-release-branch.outputs.encrypted-version }};
+          VERSION=$(echo -n "$ENCRYPTED_SECRET" | base64 --decode | openssl enc -d -a -k "password");
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Reset release branch
+        run: |
+          git fetch origin release/${{ steps.decrypt-tag.outputs.version }}:release/${{ steps.decrypt-tag.outputs.version }}
+          git reset --hard release/${{ steps.decrypt-tag.outputs.version }}
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: ":rocket: New release ${{ steps.decrypt-tag.outputs.version }}"
+          committer:  ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
+          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
+          base: main
+          branch: release/${{ steps.decrypt-tag.outputs.version }}-merge
+          delete-branch: true
+          title: ":rocket: New release ${{ steps.decrypt-tag.outputs.version }}"
+
+  delete-release-branch:
+    if: ${{ ! inputs.keep-release-branch }}
+    needs: [create-release-branch, create-pull-request]
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: 'write'
+      contents: 'write'
+      id-token: 'write'
+    steps:
+      - name: Decrypt tag
+        id: decrypt-tag
+        shell: bash
+        run: |
+          ENCRYPTED_SECRET=${{ needs.create-release-branch.outputs.encrypted-version }};
+          VERSION=$(echo -n "$ENCRYPTED_SECRET" | base64 --decode | openssl enc -d -a -k "password");
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Delete release branch
+        run: |
+          git push origin --delete release/${{ steps.decrypt-tag.outputs.version }}
