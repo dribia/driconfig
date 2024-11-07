@@ -25,9 +25,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'poetry'
       - name: Install Dependencies
-        run: poetry install --only main,test
+        run: poetry install --only main,ci,test
       - name: Test
-        run: bash scripts/test.sh
+        run: make test
       - uses: codecov/codecov-action@v4
         with:
           fail_ci_if_error: true

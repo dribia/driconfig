@@ -126,13 +126,13 @@ poetry install
 Then, to run the project unit tests:
 
 ```shell
-bash scripts/test.sh
+make test
 ```
 
 To run the linters (`ruff` and `mypy`):
 
 ```shell
-bash scripts/lint.sh
+make lint
 ```
 
 ## License
