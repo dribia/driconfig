@@ -39,26 +39,35 @@ select = [
     "W",  # pycodestyle warnings
     "F",  # pyflakes
     "I",  # isort
-    "C",  # flake8-comprehensions
+    "C",  # convention
     "B",  # flake8-bugbear
     "D",  # pydocstyle
+    "UP",  # pyupgrade
+    "N",  # pep8-naming
+    "NPY",  # numpy
+    "PD",   # pandas
+    "RUF",  # ruff
+    "PTH",  # pathlib
+    "SIM",  # simplify
+    "RET",  # return
+    "RSE",  # raise
+    "Q",  # quotes
+    "G",  # logging-format
+    "LOG",  # logging
+    "ISC",  # implicit str concat
+    "C4",  # comprehensions
+    "COM",  # commas
+    "TD",  # to-do
+    "INT",  # gettext
+    "TRY",  # tryceratops
 ]
 ignore = [
-    "E501",
-    "W191",
-    "E111",
-    "E114",
-    "E117",
-    "D206",
-    "D300",
-    "Q000",
-    "Q001",
-    "Q002",
-    "Q003",
-    "COM812",
-    "COM819",
-    "ISC001",
-    "ISC002",
+    "C901",  # function is too complex
+    "N805",  # allow naming `self` to first class argument
+    "RUF013",  # implicit optional
+    "ISC001",  # allow implicit str concat
+    "COM812",  # allow missing trailing comma
+    "TRY003",  # allow long messages outside the exception class
 ]
 
 [tool.ruff.lint.pydocstyle]
