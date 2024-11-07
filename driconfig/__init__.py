@@ -11,11 +11,7 @@ import os
 from collections.abc import Mapping
 from importlib.metadata import version
 from pathlib import Path
-from typing import (
-    Any,
-    ClassVar,
-    Type,
-)
+from typing import Any, ClassVar
 
 import yaml
 from pydantic import BaseModel, ConfigDict
@@ -98,7 +94,7 @@ class DriConfig(BaseModel):
     @classmethod
     def config_customise_sources(
         cls,
-        settings_cls: Type[DriConfig],
+        settings_cls: type[DriConfig],
         init_config: PydanticBaseSettingsSource,
         yaml_config: PydanticBaseSettingsSource,
     ) -> tuple[PydanticBaseSettingsSource, ...]:
@@ -110,7 +106,8 @@ class DriConfig(BaseModel):
             yaml_config: The `YamlConfigSource` instance.
 
         Returns:
-            A tuple containing the sources and their order for loading the settings values.
+            A tuple containing the sources and their order for loading the
+            settings values.
         """
         return init_config, yaml_config
 
@@ -184,8 +181,7 @@ class DriConfig(BaseModel):
         )
         if sources:
             return deep_update(*reversed([source() for source in sources]))
-        else:
-            return {}
+        return {}
 
     model_config: ClassVar[DriConfigConfigDict] = DriConfigConfigDict(
         extra="forbid",
@@ -212,7 +208,7 @@ class YamlConfigSource(EnvSettingsSource):
 
     def __init__(
         self,
-        settings_cls: Type[BaseSettings],
+        settings_cls: type[BaseSettings],
         config_file_name: str | None = None,
         config_folder: Path | str | None = None,
         config_file_encoding: str | None = None,
@@ -305,7 +301,7 @@ def read_yaml_file(
     Returns: Parsed YAML configuration file.
 
     """
-    with open(file_path, "r", encoding=encoding or "utf8") as f:
+    with Path(file_path).open(encoding=encoding or "utf8") as f:
         file_vars: dict[str, Any] = yaml.load(f, Loader=yaml.SafeLoader)
     if config_prefix is not None:
         file_vars = {k.replace(config_prefix, ""): v for k, v in file_vars.items()}
