@@ -1,47 +1,19 @@
 # DriConfig
 
-<p align="center">
-    <a href="https://dribia.github.io/driconfig">
-        <picture style="display: block; margin-left: auto; margin-right: auto; width: 40%;">
-            <source
-                media="(prefers-color-scheme: dark)"
-                srcset="https://dribia.github.io/driconfig/img/logo_dribia_blanc_cropped.png"
-            >
-            <source
-                media="(prefers-color-scheme: light)"
-                srcset="https://dribia.github.io/driconfig/img/logo_dribia_blau_cropped.png"
-            >
-            <img
-                alt="driconfig"
-                src="https://dribia.github.io/driconfig/img/logo_dribia_blau_cropped.png"
-            >
-        </picture>
+<p style="text-align: center; padding-bottom: 1rem;">
+    <a href="/driconfig">
+        <img
+            src="./img/logo_dribia_blau_cropped.png"
+            alt="Dribia"
+            style="display: block; margin-left: auto; margin-right: auto; width: 40%;"
+        >
     </a>
 </p>
 
-<p style="text-align: center">
-<a href="https://github.com/dribia/driconfig/actions?query=workflow%3ATest" target="_blank">
-    <img src="https://github.com/dribia/driconfig/workflows/Test/badge.svg?query=branch%3Amain" alt="Test">
-</a>
-<a href="https://github.com/dribia/driconfig/actions?query=workflow%3ALint" target="_blank">
-    <img src="https://github.com/dribia/driconfig/workflows/Lint/badge.svg?query=branch%3Amain" alt="Lint">
-</a>
-<a href="https://github.com/dribia/driconfig/actions?query=workflow%3APublish" target="_blank">
-    <img src="https://github.com/dribia/driconfig/workflows/Publish/badge.svg?query=branch%3Amain" alt="Publish">
-</a>
-<a href="https://github.com/dribia/driconfig/actions?query=workflow%3ADocs" target="_blank">
-    <img src="https://github.com/dribia/driconfig/workflows/Docs/badge.svg?query=branch%3Amain" alt="Docs">
-</a>
-<a href="https://codecov.io/gh/dribia/driconfig" target="_blank">
-    <img src="https://img.shields.io/codecov/c/github/dribia/driconfig?color=%2334D058" alt="Coverage">
-</a>
-<a href="https://pypi.org/project/driconfig" target="_blank">
-    <img src="https://img.shields.io/pypi/v/driconfig?color=%2334D058&label=pypi%20package" alt="PyPI version">
-</a>
-<a href="https://pypistats.org/packages/driconfig" target="_blank">
-    <img src="https://img.shields.io/pypi/dm/driconfig?color=%2334D058" alt="PyPI downloads">
-</a>
-</p>
+|         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CI/CD   | [![Tests](https://github.com/dribia/driconfig/actions/workflows/test.yml/badge.svg)](https://github.com/dribia/driconfig/actions/workflows/test.yml) [![Coverage Status](https://img.shields.io/codecov/c/github/dribia/driconfig)](https://codecov.io/gh/dribia/driconfig) [![Tests](https://github.com/dribia/driconfig/actions/workflows/lint.yml/badge.svg)](https://github.com/dribia/driconfig/actions/workflows/lint.yml) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/python/mypy) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) |
+| Package | [![PyPI](https://img.shields.io/pypi/v/driconfig)](https://pypi.org/project/driconfig/) ![PyPI - Downloads](https://img.shields.io/pypi/dm/driconfig?color=blue&logo=pypi&logoColor=gold) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/driconfig?logo=python&logoColor=gold) [![GitHub](https://img.shields.io/github/license/dribia/driconfig?color=blue)](https://github.com/dribia/driconfig/blob/main/LICENSE)                                                                                                                                                                                                                                                             |
 
 <p style="text-align: center;">
     <em>A Pydantic-ish way to manage your project's YAML configurations.</em>

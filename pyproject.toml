@@ -3,11 +3,8 @@ name = "driconfig"
 version = "1.0.3"
 description = "Pydantic-ish YAML configuration management."
 license = "MIT"
-authors = ["Dribia Data Research <info@dribia.com>"]
-maintainers = [
-    "Irene Pérez <irene@dribia.com>",
-    "Albert Iribarne <iribarne@dribia.com>",
-]
+authors = ["Dribia Data Research <code@dribia.com>"]
+maintainers = ["Dribia Data Research <code@dribia.com>"]
 readme = "README.md"
 homepage = "https://dribia.github.io/driconfig"
 repository = "https://github.com/dribia/driconfig"
@@ -15,14 +12,19 @@ documentation = "https://dribia.github.io/driconfig"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
-PyYAML = "^6.0"
+pyyaml = "^6.0"
 pydantic-settings = "^2.0.1"
 
-[tool.poetry.group.lint.dependencies]
+[tool.poetry.group.dev.dependencies]
 pre-commit = "3.5.0"
+
+[tool.poetry.group.ci.dependencies]
+setuptools = "^75.3.0"
+
+[tool.poetry.group.lint.dependencies]
 ruff = "0.7.2"
 mypy = "1.13.0"
-types-PyYAML = "^6.0.12"
+types-pyyaml = "^6.0.12"
 
 [tool.poetry.group.test.dependencies]
 pytest = ">=7.2.2,<9.0.0"
@@ -32,6 +34,7 @@ pytest-cov = ">=4,<6"
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.4.2"
 mkdocs-material = "^9.5.36"
+mike = "^2.1.3"
 
 [tool.ruff.lint]
 select = [
