@@ -50,7 +50,7 @@ markdown_extensions:
   - markdown.extensions.codehilite:
       guess_lang: false
   - toc:
-      permalink: 🔗
+      permalink: 📎
   - codehilite
   - admonition
   - pymdownx.details
@@ -58,7 +58,7 @@ markdown_extensions:
   - pymdownx.tabbed
 
 plugins:
-- mike:
-    alias_type: symlink
-    canonical_version: latest
-- search
+  - mike:
+      alias_type: symlink
+      canonical_version: latest
+  - search
