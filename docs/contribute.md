@@ -15,10 +15,7 @@
 </p>
 
 ## Mantainers
-DriConfig is maintained by:
-
-* Irene Pérez - <irene@dribia.com>
-* Albert Iribarne - <iribarne@dribia.com>
+DriConfig is maintained by Dribia Data Research <code@dribia.com>.
 
 ## Issues
 Questions, feature requests and bug reports are all welcome as [discussions or issues](https://github.com/dribia/driconfig/issues).
@@ -47,8 +44,8 @@ Now you should be ready to start coding and prepare your [pull request](https://
 Remember that you can run linting and tests locally with:
 
 ```shell
-sh scripts/lint.sh
-sh scripts/test.sh
+make lint
+make test
 ```
 
 Happy coding!
