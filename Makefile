@@ -50,8 +50,8 @@ bump-version:
 			exit 0; \
 		else \
 		  poetry install; \
-		  git commit pyproject.toml -m ":arrow_up: $${commit_message}"; \
-		  git tag -a "v$${new_version}" -m ":arrow_up: $${commit_message}"; \
+		  git commit pyproject.toml -m ":bookmark: $${commit_message}"; \
+		  git tag -a "v$${new_version}" -m ":bookmark: $${commit_message}"; \
 		fi
 
 --setup-poetry:
