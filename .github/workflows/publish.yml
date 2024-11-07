@@ -13,3 +13,31 @@ jobs:
       - uses: JRubics/poetry-publish@v1.17
         with:
           pypi_token: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+
+  docs:
+    needs: [publish]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: snok/install-poetry@v1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+      - name: Install Dependencies
+        run: poetry install --only main,ci,docs
+      - name: Get minor version
+        id: get-minor
+        run: |
+          MINOR=$(poetry version -s | cut -d"." -f-2);
+          echo "minor=$MINOR" >> $GITHUB_OUTPUT
+      - name: Setup git credentials
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - name: Build Docs
+        run: |
+          poetry run mike deploy --push --update-aliases --allow-empty ${{ steps.get-minor.outputs.minor }} latest
+          poetry run mike set-default --push --allow-empty latest
