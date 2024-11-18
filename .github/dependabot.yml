@@ -5,11 +5,37 @@
 
 version: 2
 updates:
-  - package-ecosystem: "pip" # See documentation for possible values
+  - package-ecosystem: "pip"
+    target-branch: "main"
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
     allow:
       - dependency-type: "direct"
+        dependency-name: "pyyaml"
+      - dependency-type: "direct"
+        dependency-name: "pydantic-settings"
+    groups:
+      all:
+        patterns:
+          - "*"
     commit-message:
       prefix: ":arrow_up:"
+    versioning-strategy: "lockfile-only"
+
+  - package-ecosystem: "pip"
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "direct"
+    ignore:
+      - dependency-name: "pyyaml"
+      - dependency-name: "pydantic-settings"
+    groups:
+      all:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: ":arrow_up:"
+    versioning-strategy: "increase"
