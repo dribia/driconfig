@@ -4,7 +4,6 @@ Dribia 2021/01/11, Albert Iribarne <iribarne@dribia.com>
 """
 
 import re
-from typing import Dict
 
 import pytest
 from pydantic import ValidationError
@@ -77,7 +76,7 @@ def test_driconfig_prefix(config_path):
             config_prefix="PRE_",
         )
 
-        parent_config: Dict[str, float]
+        parent_config: dict[str, float]
 
     app_config = AppConfig()
 
