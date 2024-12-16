@@ -63,6 +63,7 @@ select = [
     "TD",  # to-do
     "INT",  # gettext
     "TRY",  # tryceratops
+    "TID",  # tidy imports
 ]
 ignore = [
     "C901",  # function is too complex
