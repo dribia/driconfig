@@ -19,11 +19,11 @@ pydantic-settings = "^2.0.1"
 pre-commit = "^4.2.0"
 
 [tool.poetry.group.ci.dependencies]
-setuptools = "^80.8.0"
+setuptools = "^80.9.0"
 
 [tool.poetry.group.lint.dependencies]
-ruff = "0.11.11"
-mypy = "1.15.0"
+ruff = "0.11.12"
+mypy = "1.16.0"
 types-pyyaml = "^6.0.12"
 
 [tool.poetry.group.test.dependencies]
