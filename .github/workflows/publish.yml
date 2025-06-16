@@ -14,7 +14,9 @@ jobs:
         uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
-      - name: publish with uv
+      - name: Build
+        run: uv build --no-sources
+      - name: Publish
         run: uv publish --token ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
 
   docs:
