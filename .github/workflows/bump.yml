@@ -30,7 +30,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          make bump-version COMMIT_VERSION={% raw %}${{ github.event.inputs.version }}{% endraw %}
+          make bump-version COMMIT_VERSION=${{ github.event.inputs.version }}
           NEW_VERSION=v$(uv version --dry-run --short)
           git tag -d $NEW_VERSION 2> /dev/null
           echo "::add-mask::$NEW_VERSION"
