@@ -55,9 +55,6 @@ site/
 # PyBuilder
 target/
 
-# Environments
-.env
-
 # mypy
 .mypy_cache/
 
@@ -72,3 +69,15 @@ python_scripts
 
 # config file to test stuff.
 dummy_config.yaml
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

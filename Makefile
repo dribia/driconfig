@@ -18,69 +18,85 @@ clean:
 check: format lint
 
 format:
-	poetry run ruff format $(PROJECT) tests
-	poetry run ruff check --fix --unsafe-fixes $(PROJECT) $(TESTS)
+	uv run ruff format $(PROJECT) tests
+	uv run ruff check --fix --unsafe-fixes $(PROJECT) $(TESTS)
+
+--check-git-status:
+	@status=$$(git status --porcelain); \
+		if [ -n "$${status}" ]; \
+		then \
+			echo "ERROR:\n  GIT status is not clean.\
+			\n  Commit or discard your changes before using this script."; \
+			exit 1; \
+		fi
 
 lint:
-	poetry run ruff format --check $(PROJECT) $(TESTS)
-	poetry run ruff check $(PROJECT) $(TESTS)
-	poetry run mypy $(PROJECT)
+	uv run ruff format --check $(PROJECT) $(TESTS)
+	uv run ruff check $(PROJECT) $(TESTS)
+	uv run mypy $(PROJECT)
 
 lock:
-	poetry lock --no-update
+	uv lock --no-update
 
 test:
-	poetry run pytest --cov --cov-report=html --cov-report=xml
+	uv run pytest --cov --cov-report=html --cov-report=xml
 
 test-unit:
-	poetry run pytest --cov --cov-report=html --cov-report=xml -m "not integration"
+	uv run pytest --cov --cov-report=html --cov-report=xml -m "not integration"
 
 test-integration:
-	poetry run pytest -m "integration"
+	uv run pytest -m "integration"
 
 test-files:
 	diff --brief docs/index.md README.md
 
 bump-version:
-	@old_version=$$(poetry version -s); echo "Current version: $${old_version}"; \
-		commit_message=$$(poetry version "$(COMMIT_VERSION)"); \
-		new_version=$$(poetry version -s); \
-		if [ "$${old_version}" = "$${new_version}" ]; then \
+	@make -- --check-git-status
+	@old_version=$$(uv version --dry-run --short); echo "Current version: $${old_version}"; \
+		bmp_vrs=$(COMMIT_VERSION); \
+		case $${bmp_vrs} in \
+			major|minor|patch) echo "Version bumping: $${bmp_vrs}"; uv version --bump $${bmp_vrs}; ;; \
+			*) echo "New version provided: $${bmp_vrs}"; uv version "$${bmp_vrs}"; ;; \
+		esac; \
+		new_version=$$(uv version --dry-run --short); \
+		if [ "$${new_version}" = "$${old_version}" ]; then \
 			echo "$${old_version} version update did not change the version number."; \
 			exit 0; \
 		else \
-		  poetry install; \
-		  git commit pyproject.toml -m ":bookmark: $${commit_message}"; \
-		  git tag -a "v$${new_version}" -m ":bookmark: $${commit_message}"; \
+			uv sync; \
+			uv run git commit pyproject.toml uv.lock -m ":bookmark: Bumping version from v$${old_version} to v$${new_version}"; \
+			git tag -a "v$${new_version}" -m ":bookmark: Bumping version from v$${old_version} to v$${new_version}"; \
+			echo "\nNew version: $${new_version}"; \
 		fi
 
---setup-poetry:
-	@echo "Checking if Poetry is installed ..."; \
-		poetry_path=$$(command -v "poetry"); \
-		if [ -z "$${poetry_path}" ]; \
+--setup-uv:
+	@echo "Checking if uv is installed ..."; \
+		uv_path=$$(command -v "uv"); \
+		if [ -z "$${uv_path}" ]; \
 		then \
-			echo "ERROR: Poetry not found.\
-			\n  You should have Poetry installed in order to setup this project.\
-			\n  https://python-poetry.org/docs/#installation\n"; \
+			echo "ERROR: uv not found.\
+			\n  You should have uv installed in order to setup this project.\
+			\n  https://docs.astral.sh/uv/getting-started/installation/\n"; \
 			exit 1; \
 		fi
-	@echo "Checking if poetry.lock is up-to-date ..."; \
-		lock_status=$$(poetry check --lock | grep " "); \
-		if [ "$${lock_status}" != "All set!" ]; \
+	@echo "Checking if uv.lock is up-to-date ..."; \
+		if uv lock --check > /dev/null 2>&1 ; \
 		then \
-			poetry lock --no-update; \
-			poetry install --sync; \
-			poetry run pre-commit install --install-hooks; \
-			git add poetry.lock; \
-  			poetry run pre-commit run --files poetry.lock || true; \
-  			git commit poetry.lock -m ":lock: Lock the project dependencies."; \
+			echo "uv.lock is up-to-date"; \
+            uv sync; \
+  			uv run pre-commit install --install-hooks; \
 		else \
-			echo "Poetry lock file is up-to-date."; \
-			poetry install --sync; \
-			poetry run pre-commit install --install-hooks; \
+  			echo "uv.lock is NOT up-to-date."; \
+  			echo "Update uv.lock and commit it."; \
+			uv sync; \
+			uv run pre-commit install --install-hooks; \
+			git add uv.lock; \
+  			uv run pre-commit run --files uv.lock || true; \
+  			uv run git commit .pre-commit-config.yaml uv.lock -m ":lock: Lock the project dependencies"; \
 		fi
 
 setup:
-	@make -- --setup-poetry || exit 1;
+	@make -- --check-git-status || exit 1
+	@make -- --setup-uv || exit 1
 	@echo "Checking pre-commits ..."; poetry run pre-commit run --all-files || exit 1
-	@poetry_env_path=$$(poetry env info --path); echo "Setup is done!\nVirtual environment located at: $${poetry_env_path}"; exit 0
+	@echo "\nSetup completed successfully!\n"; exit 0
