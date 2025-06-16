@@ -12,11 +12,6 @@ on:
           - 'minor'
           - 'patch'
         default: 'patch'
-      keep-release-branch:
-        description: 'Keep release branch'
-        required: false
-        type: boolean
-        default: false
 
 jobs:
   create-release-branch:
@@ -26,18 +21,17 @@ jobs:
       id-token: 'write'
     steps:
       - uses: actions/checkout@v4
-      - uses: snok/install-poetry@v1
-      - uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: '3.11'
-          cache: 'poetry'
+          enable-cache: true
       - name: Bump version
         id: bump-version
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          make bump-version COMMIT_VERSION=${{ github.event.inputs.version }}
-          NEW_VERSION=v$(poetry version -s)
+          make bump-version COMMIT_VERSION={% raw %}${{ github.event.inputs.version }}{% endraw %}
+          NEW_VERSION=v$(uv version --dry-run --short)
           git tag -d $NEW_VERSION 2> /dev/null
           echo "::add-mask::$NEW_VERSION"
           echo "new-version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
@@ -90,7 +84,6 @@ jobs:
           title: ":rocket: New release ${{ steps.decrypt-tag.outputs.version }}"
 
   delete-release-branch:
-    if: ${{ ! inputs.keep-release-branch }}
     needs: [create-release-branch, create-pull-request]
     runs-on: ubuntu-latest
     permissions:
