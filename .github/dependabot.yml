@@ -4,8 +4,22 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
+
 updates:
-  - package-ecosystem: "pip"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "dribia/driworkflows*"
+    groups:
+      all:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: ":arrow_up:"
+
+  - package-ecosystem: "uv"
     target-branch: "main"
     directory: "/" # Location of package manifests
     schedule:
@@ -23,7 +37,7 @@ updates:
       prefix: ":arrow_up:"
     versioning-strategy: "lockfile-only"
 
-  - package-ecosystem: "pip"
+  - package-ecosystem: "uv"
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"

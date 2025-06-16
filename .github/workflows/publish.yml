@@ -10,9 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: JRubics/poetry-publish@v1.17
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          pypi_token: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+          enable-cache: true
+      - name: publish with uv
+        run: uv publish --token ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
 
   docs:
     needs: [publish]
@@ -21,17 +24,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: snok/install-poetry@v1
-      - uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: '3.11'
-          cache: 'poetry'
+          enable-cache: true
       - name: Install Dependencies
-        run: poetry install --only main,ci,docs
+        run: uv sync --no-default-groups --group ci --group docs
       - name: Get minor version
         id: get-minor
         run: |
-          MINOR=$(poetry version -s | cut -d"." -f-2);
+          MINOR=$(uv version --dry-run --short | cut -d"." -f-2);
           echo "minor=$MINOR" >> $GITHUB_OUTPUT
       - name: Setup git credentials
         run: |
@@ -39,5 +41,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
       - name: Build Docs
         run: |
-          poetry run mike deploy --push --update-aliases --allow-empty ${{ steps.get-minor.outputs.minor }} latest
-          poetry run mike set-default --push --allow-empty latest
+          uv run mike deploy --push --update-aliases --allow-empty ${{ steps.get-minor.outputs.minor }} latest
+          uv run mike set-default --push --allow-empty latest
