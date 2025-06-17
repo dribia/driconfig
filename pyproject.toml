@@ -3,10 +3,30 @@ name = "driconfig"
 version = "1.1.0"
 description = "Pydantic-ish YAML configuration management."
 authors = [{ name = "Dribia Data Research", email = "code@dribia.com" }]
-requires-python = ">=3.9,<4.0"
+requires-python = ">=3.9,<3.14"
 readme = "README.md"
 license = "MIT"
 maintainers = [{ name = "Dribia Data Research", email = "code@dribia.com" }]
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python",
+    "Topic :: Internet",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+    "Typing :: Typed",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Internet :: WWW/HTTP",
+]
 dependencies = [
     "pyyaml~=6.0",
     "pydantic-settings>=2.0.1,<3",
