@@ -71,17 +71,23 @@ jobs:
         run: |
           git fetch origin release/${{ steps.decrypt-tag.outputs.version }}:release/${{ steps.decrypt-tag.outputs.version }}
           git reset --hard release/${{ steps.decrypt-tag.outputs.version }}
+      - name: Generate token for release bot
+        uses: actions/create-github-app-token@v2
+        id: generate-token
+        with:
+          app-id: ${{ secrets.RELEASE_BOT_APP_ID }}
+          private-key: ${{ secrets.RELEASE_BOT_APP_PRIVATE_KEY }}
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
-          commit-message: ":rocket: New release ${{ steps.decrypt-tag.outputs.version }}"
-          committer:  ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
-          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
-          base: main
+          token: ${{ steps.generate-token.outputs.token }}
+          commit-message: ":label: Version bump to ${{ steps.decrypt-tag.outputs.version }}"
+          base: ${{ github.ref_name }}
           branch: release/${{ steps.decrypt-tag.outputs.version }}-merge
           delete-branch: true
-          title: ":rocket: New release ${{ steps.decrypt-tag.outputs.version }}"
+          title: ":label: Version bump to ${{ steps.decrypt-tag.outputs.version }}"
+          reviewers: ${{ github.actor }}
 
   delete-release-branch:
     needs: [create-release-branch, create-pull-request]
