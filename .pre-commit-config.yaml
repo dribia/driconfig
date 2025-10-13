@@ -31,15 +31,15 @@ repos:
   hooks:
   - id: checkmake
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.11.13
+  rev: v0.14.0
   hooks:
   - id: ruff-check
     args: [ --fix ]
   - id: ruff-format
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.16.0
+  rev: v1.18.2
   hooks:
   - id: mypy
     additional_dependencies:
-    - types-pyyaml==6.0.12.20250516
-    - pydantic==2.11.4
+    - types-pyyaml==6.0.12.20250915
+    - pydantic==2.12.0

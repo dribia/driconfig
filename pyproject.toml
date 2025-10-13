@@ -50,7 +50,7 @@ lint = [
 test = [
     "pytest>=7.2.2,<9.0.0",
     "pytest-mock>=3.14.1,<4",
-    "pytest-cov>=6.2.1,<7",
+    "pytest-cov>=7.0.0,<8",
 ]
 docs = [
     "mkdocs>=1.4.2,<2",
