@@ -3,7 +3,7 @@ name = "driconfig"
 version = "1.1.0"
 description = "Pydantic-ish YAML configuration management."
 authors = [{ name = "Dribia Data Research", email = "code@dribia.com" }]
-requires-python = ">=3.9,<3.14"
+requires-python = ">=3.9,<3.15"
 readme = "README.md"
 license = "MIT"
 maintainers = [{ name = "Dribia Data Research", email = "code@dribia.com" }]
@@ -24,6 +24,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
     "pyyaml~=6.0",
@@ -50,7 +51,7 @@ lint = [
 test = [
     "pytest>=7.2.2,<9.0.0",
     "pytest-mock>=3.14.1,<4",
-    "pytest-cov>=6.2.1,<7",
+    "pytest-cov>=7.0.0,<8",
 ]
 docs = [
     "mkdocs>=1.4.2,<2",
@@ -59,7 +60,7 @@ docs = [
 ]
 
 [tool.uv]
-required-version = ">=0.7.13,<1.0"
+required-version = ">=0.9.2,<1.0"
 default-groups = [
     "dev",
     "ci",
@@ -71,6 +72,9 @@ default-groups = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.ruff]
+target-version = "py314"
 
 [tool.ruff.lint]
 select = [
