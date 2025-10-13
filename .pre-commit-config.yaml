@@ -5,7 +5,7 @@ default_install_hook_types:
   - post-rewrite
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v5.0.0
+  rev: v6.0.0
   hooks:
   - id: check-yaml
   - id: check-json
@@ -13,17 +13,17 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 - repo: https://github.com/astral-sh/uv-pre-commit
-  rev: 0.7.13
+  rev: 0.9.2
   hooks:
   - id: uv-lock
   - id: uv-sync
     args: ["--locked", "--all-packages"]
 - repo: https://github.com/dribia/sync-with-uv
-  rev: v0.1.0
+  rev: v0.1.2
   hooks:
   - id: sync-with-uv
 - repo: https://github.com/python-jsonschema/check-jsonschema
-  rev: 0.33.0
+  rev: 0.34.1
   hooks:
   - id: check-github-workflows
 - repo: https://github.com/mrtazz/checkmake.git
