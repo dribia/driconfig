@@ -98,5 +98,5 @@ bump-version:
 setup:
 	@make -- --check-git-status || exit 1
 	@make -- --setup-uv || exit 1
-	@echo "Checking pre-commits ..."; poetry run pre-commit run --all-files || exit 1
+	@echo "Checking pre-commits ..."; uv run pre-commit run --all-files || exit 1
 	@echo "\nSetup completed successfully!\n"; exit 0
