@@ -44,7 +44,7 @@ ci = [
     "setuptools>=80.9.0,<81",
 ]
 lint = [
-    "ruff==0.14.10",
+    "ruff==0.14.11",
     "mypy==1.19.1",
     "types-pyyaml>=6.0.12,<7",
 ]
