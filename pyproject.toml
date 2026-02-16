@@ -38,13 +38,13 @@ Documentation = "https://dribia.github.io/driconfig"
 
 [dependency-groups]
 dev = [
-    "pre-commit>=4.2.0,<5",
+    "prek>=0.3.3,<1",
 ]
 ci = [
-    "setuptools>=80.9.0,<81",
+    "setuptools>=80.9.0,<82",
 ]
 lint = [
-    "ruff==0.14.14",
+    "ruff==0.15.1",
     "mypy==1.19.1",
     "types-pyyaml>=6.0.12,<7",
 ]

@@ -35,7 +35,7 @@ git clone https://github.com/dribia/driconfig.git
 ```
 Then, you can step into the project's root and, assuming that you have [uv](https://docs.astral.sh/uv/) installed, run:
 ```shell
-uv sync && uv run pre-commit install
+uv sync && uv run prek install
 ```
 
 Now you should be ready to start coding and prepare your [pull request](https://github.com/dribia/driconfig/pulls).
