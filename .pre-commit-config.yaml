@@ -36,13 +36,14 @@ repos:
   - id: ruff-check
     args: [ --fix ]
   - id: ruff-format
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.19.1
+- repo: local
   hooks:
-  - id: mypy
-    additional_dependencies:
-    - types-pyyaml==6.0.12.20250915
-    - pydantic==2.12.5
+  - id: ty
+    name: ty check
+    entry: uv run --frozen ty check
+    language: system
+    pass_filenames: false
+    always_run: true
 
 ci:
   autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks

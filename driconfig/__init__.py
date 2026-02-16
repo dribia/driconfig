@@ -214,7 +214,7 @@ class YamlConfigSource(EnvSettingsSource):
         config_file_encoding: str | None = None,
         case_sensitive: bool | None = None,
         config_prefix: str | None = None,
-    ):
+    ) -> None:
         """Initialize the YAML configurations source.
 
         Args:
@@ -243,7 +243,9 @@ class YamlConfigSource(EnvSettingsSource):
         """Load configuration variables from the YAML file."""
         return self._read_config_files(self.case_sensitive, self.config_prefix)
 
-    def _read_config_files(self, case_sensitive: bool, config_prefix: str):
+    def _read_config_files(
+        self, case_sensitive: bool, config_prefix: str
+    ) -> dict[str, str | None]:
         if self.config_file is None:
             return {}
         if isinstance(self.config_file, (str, os.PathLike)):
@@ -287,9 +289,9 @@ class YamlConfigSource(EnvSettingsSource):
 def read_yaml_file(
     file_path: Path,
     *,
-    encoding: str = None,
+    encoding: str | None = None,
     case_sensitive: bool = False,
-    config_prefix: str = None,
+    config_prefix: str | None = None,
 ) -> dict[str, str | None]:
     """Parse a YAML configuration file.
 

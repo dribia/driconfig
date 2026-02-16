@@ -1,9 +1,7 @@
-"""driconfig package test module.
-
-Dribia 2021/01/11, Albert Iribarne <iribarne@dribia.com>
-"""
+"""driconfig package test module."""
 
 import re
+from pathlib import Path
 
 import pytest
 from pydantic import ValidationError
@@ -18,12 +16,12 @@ from driconfig import (
 )
 
 
-def test_version():
+def test_version() -> None:
     """Assert that `__version__` exists and is valid."""
     assert re.match(r"\d.\d.\d", driconfig.__version__)
 
 
-def test_driconfig(config_path):
+def test_driconfig(config_path: Path) -> None:
     """Test DriConfig."""
 
     class AppConfig(DriConfig):
@@ -38,12 +36,12 @@ def test_driconfig(config_path):
         foo: str
         case_sensitive: str = "is_case_sensitive"
 
-    app_config = AppConfig()
+    app_config = AppConfig()  # ty: ignore[missing-argument]
     assert isinstance(app_config.foo, str)
     assert app_config.case_sensitive == "is_not_case_sensitive"
 
 
-def test_driconfig_insensitive(config_path):
+def test_driconfig_insensitive(config_path: Path) -> None:
     """Test DriConfig."""
 
     class AppConfig(DriConfig):
@@ -58,12 +56,12 @@ def test_driconfig_insensitive(config_path):
         foo: str
         case_sensitive: str = "is_case_sensitive"
 
-    app_config = AppConfig()
+    app_config = AppConfig()  # ty: ignore[missing-argument]
     assert isinstance(app_config.foo, str)
     assert app_config.case_sensitive == "is_case_sensitive"
 
 
-def test_driconfig_prefix(config_path):
+def test_driconfig_prefix(config_path: Path) -> None:
     """Test DriConfig."""
 
     class AppConfig(DriConfig):
@@ -78,13 +76,13 @@ def test_driconfig_prefix(config_path):
 
         parent_config: dict[str, float]
 
-    app_config = AppConfig()
+    app_config = AppConfig()  # ty: ignore[missing-argument]
 
     assert isinstance(app_config.parent_config, dict)
     assert app_config.parent_config["CHILD_CONFIG_A"] == 1
 
 
-def test_driconfig_fail():
+def test_driconfig_fail() -> None:
     """Test DriConfig."""
 
     class AppConfig(DriConfig):
@@ -93,15 +91,15 @@ def test_driconfig_fail():
         foo: str
 
     with pytest.raises(ValidationError):
-        AppConfig()
+        AppConfig()  # ty: ignore[missing-argument]
 
 
-def test_builtins_settings_source_repr():
+def test_builtins_settings_source_repr() -> None:
     """Test representation methods."""
     assert (
         repr(
             InitConfigSource(
-                settings_cls=DriConfig,
+                settings_cls=DriConfig,  # ty: ignore[invalid-argument-type]
                 init_kwargs={"apple": "value 0", "banana": "value 1"},
             )
         )
@@ -110,7 +108,7 @@ def test_builtins_settings_source_repr():
     assert (
         repr(
             YamlConfigSource(
-                settings_cls=DriConfig,
+                settings_cls=DriConfig,  # ty: ignore[invalid-argument-type]
                 config_folder="foo",
                 config_file_name="bar",
                 config_file_encoding="utf-8",
@@ -120,7 +118,7 @@ def test_builtins_settings_source_repr():
     )
 
 
-def test_customise_sources_empty():
+def test_customise_sources_empty() -> None:
     """Test empty customize sources method."""
 
     class AppConfig(DriConfig):
@@ -128,7 +126,7 @@ def test_customise_sources_empty():
         banana: str = "default"
 
         @classmethod
-        def config_customise_sources(cls, *args, **kwargs):
+        def config_customise_sources(cls, *args, **kwargs) -> tuple:  # noqa: ANN002, ANN003
             return ()
 
     assert AppConfig().model_dump() == {"apple": "default", "banana": "default"}
@@ -138,7 +136,7 @@ def test_customise_sources_empty():
     }
 
 
-def test_catch_on_non_str_key(config_path):
+def test_catch_on_non_str_key(config_path: Path) -> None:
     """Test catch of the non-string key yaml case."""
 
     class AppConfig(DriConfig):
@@ -152,7 +150,7 @@ def test_catch_on_non_str_key(config_path):
     assert isinstance(app_config, AppConfig)
 
 
-def test_yaml_config_error(config_path):
+def test_yaml_config_error(config_path: Path) -> None:
     """Test the YAMLConfigError exception raising."""
 
     class AppConfig(DriConfig):
