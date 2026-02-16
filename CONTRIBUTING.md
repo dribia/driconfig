@@ -1,4 +1,4 @@
-# Contribute
+# Contributing
 
 <p style="text-align: center; padding-bottom: 1rem;">
     <a href="https://dribia.github.io/driconfig">
