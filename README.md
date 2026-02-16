@@ -24,10 +24,11 @@ DriConfig
     <em>A Pydantic-ish way to manage your project's YAML configurations.</em>
 </p>
 
-|         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| CI/CD   | [![Tests](https://github.com/dribia/driconfig/workflows/Test/badge.svg?query=branch%3Amain)](https://github.com/dribia/driconfig/actions?query=workflow%3ATest) [![Coverage Status](https://img.shields.io/codecov/c/github/dribia/driconfig?color=%2334D058)](https://codecov.io/gh/dribia/driconfig) [![Tests](https://github.com/dribia/driconfig/workflows/Lint/badge.svg?query=branch%3Amain)](https://github.com/dribia/driconfig/actions?query=workflow%3ALint) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/python/mypy) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) |
-| Package | [![PyPI](https://img.shields.io/pypi/v/driconfig)](https://pypi.org/project/driconfig) ![PyPI - Downloads](https://img.shields.io/pypi/dm/driconfig?color=blue&logo=pypi&logoColor=gold) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/driconfig?logo=python&logoColor=gold) [![GitHub](https://img.shields.io/github/license/dribia/driconfig?color=blue)](LICENSE)                                                                                                                                                                                                                                                                                                                                                  |
+|         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CI/CD   | [![Lint](https://github.com/dribia/driconfig/workflows/Lint/badge.svg?query=branch%3Amain)](https://github.com/dribia/driconfig/actions?query=workflow%3ALint) [![Tests](https://github.com/dribia/driconfig/workflows/Test/badge.svg?query=branch%3Amain)](https://github.com/dribia/driconfig/actions?query=workflow%3ATest) [![Coverage Status](https://img.shields.io/codecov/c/github/dribia/driconfig?color=%2334D058)](https://codecov.io/gh/dribia/driconfig) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/python/mypy) |
+| Package | [![PyPI](https://img.shields.io/pypi/v/driconfig)](https://pypi.org/project/driconfig) ![PyPI - Downloads](https://img.shields.io/pypi/dm/driconfig) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/driconfig) [![GitHub](https://img.shields.io/github/license/dribia/driconfig)](LICENSE)                                                                                                                                                                                                                                              |
+
 ---
 
 **Documentation**: <a href="https://dribia.github.io/driconfig" target="_blank">https://dribia.github.io/driconfig</a>
@@ -37,7 +38,20 @@ DriConfig
 ---
 
 The usage of YAML files to store configurations and parameters is widely accepted in the Python
-community, especially in Data Science environments. DriConfig provides a clean interface between your Python code and these YAML configuration files.
+community, especially in Data Science environments. DriConfig provides a clean interface between your
+Python code and these YAML configuration files.
+
+It is heavily based on [Pydantic](https://pydantic-docs.helpmanual.io)'s
+[Settings Management](https://pydantic-docs.helpmanual.io/usage/settings/),
+preserving its core functionalities and advantages.
+
+## Key features
+
+* Subclassing the `DriConfig` class we create an **interface to any YAML configuration file**.
+* Our project's **configurations are** then **attributes** of this class.
+* They are **automatically filled** with the values in the YAML configuration file.
+* We can define **complex configuration structures** using Pydantic models.
+* We preserve Pydantic's **type casting and validation**!
 
 ## Installation
 
@@ -130,29 +144,9 @@ print(config.model_dump_json(indent=4))
 
 ## Contributing
 
-[uv](https://docs.astral.sh/uv/) is the best way to interact with this project. To install it,
-follow the official [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/).
-
-With `uv` installed, one can install the project dependencies with:
-
-```shell
-uv sync
-```
-
-Then, to run the project unit tests:
-
-```shell
-make test
-```
-
-To run the linters (`ruff` and `mypy`):
-
-```shell
-make lint
-```
+Check the [CONTRIBUTING](./CONTRIBUTING.md) site for guidelines on how to contribute to this project.
 
 ## License
 
-`driconfig` is distributed under the terms of the
-[MIT](https://opensource.org/license/mit) license.
+DriConfig is distributed under the terms of the [MIT](https://opensource.org/license/mit) license.
 Check the [LICENSE](./LICENSE) file for further details.

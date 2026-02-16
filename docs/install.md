@@ -19,7 +19,7 @@ Installation is as simple as:
 pip install driconfig
 ```
 
-### Dependencies
+## Dependencies
 DriConfig heavily depends on two other Python libraries,
 that will be installed as dependencies:
 
