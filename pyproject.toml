@@ -3,7 +3,7 @@ name = "driconfig"
 version = "1.1.1"
 description = "Pydantic-ish YAML configuration management."
 authors = [{ name = "Dribia Data Research", email = "code@dribia.com" }]
-requires-python = ">=3.9,<3.15"
+requires-python = ">=3.10,<3.15"
 readme = "README.md"
 license = "MIT"
 maintainers = [{ name = "Dribia Data Research", email = "code@dribia.com" }]
@@ -19,7 +19,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
