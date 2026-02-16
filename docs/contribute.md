@@ -33,10 +33,9 @@ In order to contribute, the first step is to clone yourself the code:
 ```shell
 git clone https://github.com/dribia/driconfig.git
 ```
-Then, you can step into the project's root and, assuming that you have both [Poetry](https://python-poetry.org/) and
-[pre-commit](https://pre-commit.com/) installed, run:
+Then, you can step into the project's root and, assuming that you have [uv](https://docs.astral.sh/uv/) installed, run:
 ```shell
-poetry install && pre-commit install
+uv sync && uv run pre-commit install
 ```
 
 Now you should be ready to start coding and prepare your [pull request](https://github.com/dribia/driconfig/pulls).

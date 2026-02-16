@@ -41,7 +41,23 @@ community, especially in Data Science environments. DriConfig provides a clean i
 
 ## Installation
 
-This project resides in the Python Package Index (PyPI), so it can easily be installed with `pip`:
+This project resides in the Python Package Index (PyPI), so it can easily be installed with `uv` or `pip`.
+
+### Using uv (recommended)
+
+[uv](https://docs.astral.sh/uv/) is a fast Python package installer and resolver.
+
+```console
+uv pip install driconfig
+```
+
+Or add it to your project:
+
+```console
+uv add driconfig
+```
+
+### Using pip
 
 ```console
 pip install driconfig
@@ -114,13 +130,13 @@ print(config.model_dump_json(indent=4))
 
 ## Contributing
 
-[Poetry](https://python-poetry.org) is the best way to interact with this project. To install it,
-follow the official [Poetry installation guide](https://python-poetry.org/docs/#installation).
+[uv](https://docs.astral.sh/uv/) is the best way to interact with this project. To install it,
+follow the official [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 
-With `poetry` installed, one can install the project dependencies with:
+With `uv` installed, one can install the project dependencies with:
 
 ```shell
-poetry install
+uv sync
 ```
 
 Then, to run the project unit tests:
