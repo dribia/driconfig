@@ -17,6 +17,7 @@ check: format lint
 format:
 	uv run --frozen ruff format
 	uv run --frozen ruff check --fix
+	uv run --frozen tombi format **/*.toml
 
 --check-git-status:
 	@status=$$(git status --porcelain); \
@@ -31,6 +32,7 @@ lint:
 	uv run --frozen ruff format --check
 	uv run --frozen ruff check
 	uv run --frozen ty check
+	uv run --frozen tombi lint **/*.toml
 
 lock:
 	uv lock --no-update
