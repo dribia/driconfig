@@ -232,8 +232,8 @@ class YamlConfigSource(EnvSettingsSource):
             env_nested_delimiter=None,
         )
         self.config_file: Path | None = None
-        self.case_sensitive: bool = case_sensitive
-        self.config_prefix: str = config_prefix
+        self.case_sensitive: bool | None = case_sensitive
+        self.config_prefix: str | None = config_prefix
         if config_file_name is not None and config_folder is not None:
             self.config_file = Path(config_folder) / config_file_name
         self.config_file_encoding: str | None = config_file_encoding
@@ -244,7 +244,7 @@ class YamlConfigSource(EnvSettingsSource):
         return self._read_config_files(self.case_sensitive, self.config_prefix)
 
     def _read_config_files(
-        self, case_sensitive: bool, config_prefix: str
+        self, case_sensitive: bool | None, config_prefix: str | None
     ) -> dict[str, str | None]:
         if self.config_file is None:
             return {}
@@ -290,7 +290,7 @@ def read_yaml_file(
     file_path: Path,
     *,
     encoding: str | None = None,
-    case_sensitive: bool = False,
+    case_sensitive: bool | None = False,
     config_prefix: str | None = None,
 ) -> dict[str, str | None]:
     """Parse a YAML configuration file.

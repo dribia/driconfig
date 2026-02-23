@@ -31,12 +31,12 @@ repos:
   hooks:
   - id: checkmake
 - repo: https://github.com/tombi-toml/tombi-pre-commit
-  rev: v0.7.28
+  rev: v0.7.32
   hooks:
   - id: tombi-format
   - id: tombi-lint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.1
+  rev: v0.15.2
   hooks:
   - id: ruff-check
     args: [ --fix ]
