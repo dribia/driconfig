@@ -72,7 +72,7 @@ jobs:
           git fetch origin release/${{ steps.decrypt-tag.outputs.version }}:release/${{ steps.decrypt-tag.outputs.version }}
           git reset --hard release/${{ steps.decrypt-tag.outputs.version }}
       - name: Generate token for release bot
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         id: generate-token
         with:
           app-id: ${{ secrets.RELEASE_BOT_APP_ID }}
