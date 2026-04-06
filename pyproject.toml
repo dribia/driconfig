@@ -48,9 +48,9 @@ docs = [
   "mkdocs-material>=9.6.14,<10",
 ]
 lint = [
-  "ruff==0.15.8",
-  "tombi==0.9.11",
-  "ty==0.0.26",
+  "ruff==0.15.9",
+  "tombi==0.9.15",
+  "ty==0.0.29",
   "types-pyyaml>=6.0.12,<7",
 ]
 test = [
