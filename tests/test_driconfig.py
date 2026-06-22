@@ -82,6 +82,41 @@ def test_driconfig_prefix(config_path: Path) -> None:
     assert app_config.parent_config["CHILD_CONFIG_A"] == 1
 
 
+def test_driconfig_deep_updates_sources(tmp_path: Path) -> None:
+    """Test nested configuration values from multiple sources."""
+    config_file = tmp_path / "config.yaml"
+    config_file.write_text(
+        "parent_config:\n"
+        "  child_config_a: yaml-a\n"
+        "  child_config_b: yaml-b\n",
+        encoding="utf-8",
+    )
+
+    class AppConfig(DriConfig):
+        """Test configuration."""
+
+        model_config = DriConfigConfigDict(
+            config_folder=tmp_path,
+            config_file_name=config_file.name,
+            case_sensitive=False,
+        )
+
+        parent_config: dict[str, str]
+
+    app_config = AppConfig(
+        parent_config={
+            "child_config_b": "init-b",
+            "child_config_c": "init-c",
+        }
+    )
+
+    assert app_config.parent_config == {
+        "child_config_a": "yaml-a",
+        "child_config_b": "init-b",
+        "child_config_c": "init-c",
+    }
+
+
 def test_driconfig_fail() -> None:
     """Test DriConfig."""
 
