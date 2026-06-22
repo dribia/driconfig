@@ -86,9 +86,7 @@ def test_driconfig_deep_updates_sources(tmp_path: Path) -> None:
     """Test nested configuration values from multiple sources."""
     config_file = tmp_path / "config.yaml"
     config_file.write_text(
-        "parent_config:\n"
-        "  child_config_a: yaml-a\n"
-        "  child_config_b: yaml-b\n",
+        "parent_config:\n  child_config_a: yaml-a\n  child_config_b: yaml-b\n",
         encoding="utf-8",
     )
 
