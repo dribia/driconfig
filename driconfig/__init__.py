@@ -16,7 +16,6 @@ from typing import Any, ClassVar
 import yaml
 from pydantic import BaseModel, ConfigDict
 from pydantic.fields import FieldInfo
-from pydantic.v1.utils import deep_update
 from pydantic_settings import BaseSettings
 from pydantic_settings.sources import (
     EnvSettingsSource,
@@ -26,6 +25,25 @@ from pydantic_settings.sources import (
 from yaml import YAMLError
 
 __version__ = version(__name__)
+
+
+def _deep_update(
+    mapping: Mapping[str, Any],
+    *updating_mappings: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Merge mappings recursively without importing Pydantic v1 utilities."""
+    updated_mapping = dict(mapping)
+    for updating_mapping in updating_mappings:
+        for key, value in updating_mapping.items():
+            if (
+                key in updated_mapping
+                and isinstance(updated_mapping[key], dict)
+                and isinstance(value, dict)
+            ):
+                updated_mapping[key] = _deep_update(updated_mapping[key], value)
+            else:
+                updated_mapping[key] = value
+    return updated_mapping
 
 
 class DriConfigConfigDict(ConfigDict, total=False):
@@ -180,7 +198,7 @@ class DriConfig(BaseModel):
             yaml_config=yaml_config,
         )
         if sources:
-            return deep_update(*reversed([source() for source in sources]))
+            return _deep_update(*reversed([source() for source in sources]))
         return {}
 
     model_config: ClassVar[DriConfigConfigDict] = DriConfigConfigDict(
@@ -275,7 +293,7 @@ class YamlConfigSource(EnvSettingsSource):
     ) -> Any:
         """Prepare the field value."""
         if isinstance(value, dict):
-            deep_update(value, self.explode_env_vars(field_name, field, self.env_vars))
+            _deep_update(value, self.explode_env_vars(field_name, field, self.env_vars))
         return value
 
     def __repr__(self) -> str:
