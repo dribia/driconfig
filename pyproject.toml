@@ -1,6 +1,6 @@
 [project]
 name = "driconfig"
-version = "1.2.1"
+version = "1.2.2"
 description = "Pydantic-ish YAML configuration management."
 readme = "README.md"
 requires-python = ">=3.10,<3.15"
