@@ -8,6 +8,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v7
       - name: Install uv
@@ -17,7 +20,7 @@ jobs:
       - name: Build
         run: uv build --no-sources
       - name: Publish
-        run: uv publish --token ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+        run: uv publish
 
   docs:
     needs: [publish]
