@@ -34,7 +34,9 @@ repos:
   rev: v1.2.0
   hooks:
   - id: tombi-format
+    exclude: ^uv\.lock$
   - id: tombi-lint
+    exclude: ^uv\.lock$
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.15.21
   hooks:
