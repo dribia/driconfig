@@ -49,7 +49,7 @@ docs = [
 ]
 lint = [
   "ruff==0.15.21",
-  "tombi==1.2.0",
+  "tombi==1.2.4",
   "ty==0.0.59",
   "types-pyyaml>=6.0.12,<7",
 ]
