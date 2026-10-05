@@ -49,11 +49,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: 'write'
-      contents: 'write'
+      contents: 'read'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: release/${{ needs.bump-version.outputs.new-version }}
+          ref: ${{ github.ref_name }}
           persist-credentials: false
       - name: Generate token for release bot
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
@@ -61,15 +61,35 @@ jobs:
         with:
           client-id: ${{ secrets.RELEASE_BOT_APP_ID }}
           private-key: ${{ secrets.RELEASE_BOT_APP_PRIVATE_KEY }}
-          permission-contents: write
+          permission-contents: read
           permission-pull-requests: write
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-        with:
-          token: ${{ steps.generate-token.outputs.token }}
-          commit-message: ":label: Version bump to ${{ needs.bump-version.outputs.new-version }}"
-          base: ${{ github.ref_name }}
-          branch: release/${{ needs.bump-version.outputs.new-version }}
-          delete-branch: true
-          title: ":label: Version bump to ${{ needs.bump-version.outputs.new-version }}"
-          reviewers: ${{ github.actor }}
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          VERSION: ${{ needs.bump-version.outputs.new-version }}
+          BASE_BRANCH: ${{ github.ref_name }}
+          REVIEWER: ${{ github.actor }}
+        run: |
+          HEAD_BRANCH="release/$VERSION"
+          TITLE=":label: Version bump to $VERSION"
+          PR_NUMBER=$(gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --head "$HEAD_BRANCH" \
+            --base "$BASE_BRANCH" \
+            --json number \
+            --jq '.[0].number // empty')
+
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr edit "$PR_NUMBER" \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "$TITLE" \
+              --add-reviewer "$REVIEWER"
+          else
+            gh pr create \
+              --repo "$GITHUB_REPOSITORY" \
+              --base "$BASE_BRANCH" \
+              --head "$HEAD_BRANCH" \
+              --title "$TITLE" \
+              --body "Automated version bump." \
+              --reviewer "$REVIEWER"
+          fi
