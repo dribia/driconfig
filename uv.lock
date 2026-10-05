@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.10, <3.16"
 resolution-markers = [
     "python_full_version >= '3.11'",
@@ -366,8 +366,9 @@ toml = [
 
 [[package]]
 name = "driconfig"
-version = "1.2.2"
+version = "1.2.3"
 source = { editable = "." }
+default-groups = ["ci", "dev", "docs", "lint", "test"]
 dependencies = [
     { name = "pydantic-settings" },
     { name = "pyyaml" },
