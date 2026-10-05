@@ -23,7 +23,7 @@ repos:
   hooks:
   - id: sync-with-uv
 - repo: https://github.com/python-jsonschema/check-jsonschema
-  rev: 0.37.1
+  rev: 0.38.2
   hooks:
   - id: check-github-workflows
 - repo: https://github.com/mrtazz/checkmake.git
