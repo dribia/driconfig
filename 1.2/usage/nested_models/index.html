@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../img/dribia-favicon-120x120.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -659,12 +659,12 @@ strongest point of DriConfig.</p>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">AppConfig</span><span class="p">(</span><span class="n">DriConfig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration class to parse the config.yaml file contents.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configuration class to parse the config.yaml file contents."""</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure AppConfig to point at the config.yaml file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configure AppConfig to point at the config.yaml file."""</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">DriConfigConfigDict</span><span class="p">(</span>
-        <span class="n">config_folder</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
-        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">,</span>
+        <span class="n">config_folder</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span>
@@ -673,21 +673,21 @@ strongest point of DriConfig.</p>
 
 <span class="n">app_config</span> <span class="o">=</span> <span class="n">AppConfig</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">app_config</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">{</span>
-<span class="sd">    &quot;timeout&quot;: 1000,</span>
-<span class="sd">    &quot;min_date&quot;: &quot;2021-04-17&quot;,</span>
-<span class="sd">    &quot;model_parameters&quot;: {</span>
-<span class="sd">        &quot;alpha&quot;: 2,</span>
-<span class="sd">        &quot;beta&quot;: 0.1,</span>
-<span class="sd">        &quot;gamma&quot;: 30</span>
+<span class="sd">    "timeout": 1000,</span>
+<span class="sd">    "min_date": "2021-04-17",</span>
+<span class="sd">    "model_parameters": {</span>
+<span class="sd">        "alpha": 2,</span>
+<span class="sd">        "beta": 0.1,</span>
+<span class="sd">        "gamma": 30</span>
 <span class="sd">    }</span>
 <span class="sd">}</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">app_config</span><span class="o">.</span><span class="n">model_parameters</span><span class="p">))</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">&lt;class &#39;dict&#39;&gt;</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
+<span class="sd">&lt;class 'dict'&gt;</span>
+<span class="sd">"""</span>
 </code></pre></div></p>
 <p>Note that no type validation is performed on the values of <code>model_paramters</code>. Instead, it is stored
 as an arbitrary dictionary.</p>
@@ -701,7 +701,7 @@ as an arbitrary dictionary.</p>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ModelParameters</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pydantic model for `model_parameters`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Pydantic model for `model_parameters`."""</span>
 
     <span class="n">alpha</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">beta</span><span class="p">:</span> <span class="nb">float</span>
@@ -709,12 +709,12 @@ as an arbitrary dictionary.</p>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">AppConfig</span><span class="p">(</span><span class="n">DriConfig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration class to parse the config.yaml file contents.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configuration class to parse the config.yaml file contents."""</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure AppConfig to point at the config.yaml file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configure AppConfig to point at the config.yaml file."""</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">DriConfigConfigDict</span><span class="p">(</span>
-        <span class="n">config_folder</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
-        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">,</span>
+        <span class="n">config_folder</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span>
@@ -723,21 +723,21 @@ as an arbitrary dictionary.</p>
 
 <span class="n">app_config</span> <span class="o">=</span> <span class="n">AppConfig</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">app_config</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">{</span>
-<span class="sd">    &quot;timeout&quot;: 1000,</span>
-<span class="sd">    &quot;min_date&quot;: &quot;2021-04-17&quot;,</span>
-<span class="sd">    &quot;model_parameters&quot;: {</span>
-<span class="sd">        &quot;alpha&quot;: 2,</span>
-<span class="sd">        &quot;beta&quot;: 0.1,</span>
-<span class="sd">        &quot;gamma&quot;: 30</span>
+<span class="sd">    "timeout": 1000,</span>
+<span class="sd">    "min_date": "2021-04-17",</span>
+<span class="sd">    "model_parameters": {</span>
+<span class="sd">        "alpha": 2,</span>
+<span class="sd">        "beta": 0.1,</span>
+<span class="sd">        "gamma": 30</span>
 <span class="sd">    }</span>
 <span class="sd">}</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">app_config</span><span class="o">.</span><span class="n">model_parameters</span><span class="p">))</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">&lt;class &#39;__main__.ModelParameters&#39;&gt;</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
+<span class="sd">&lt;class '__main__.ModelParameters'&gt;</span>
+<span class="sd">"""</span>
 </code></pre></div></p>
 <p>Note how, in this case, type validation <em>is</em> performed for <code>alpha</code>, <code>beta</code> and <code>gamma</code>.</p>
 <p>We could mimic this pattern to build even deeper nested configuration parsers,
@@ -803,7 +803,7 @@ holding all of Pydantic's validation power.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "toc.follow", "navigation.top", "navigation.path", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.preview", "navigation.instant.progress"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

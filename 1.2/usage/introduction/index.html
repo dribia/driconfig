@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../img/dribia-favicon-120x120.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -695,10 +695,10 @@ functionality, working with YAML configurations instead of environment variables
 It natively encodes scalars (such as strings, integers, and floats), lists, and dictionaries.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># config.yaml</span>
 
-<span class="nt">parameter_a</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;some</span><span class="nv"> </span><span class="s">string&quot;</span>
+<span class="nt">parameter_a</span><span class="p">:</span><span class="w"> </span><span class="s">"some</span><span class="nv"> </span><span class="s">string"</span>
 <span class="nt">parameter_b</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="nt">parameter_c</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.2</span>
-<span class="nt">parameter_d</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;I&#39;m&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;a&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">]</span>
+<span class="nt">parameter_d</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"I'm"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"a"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"list"</span><span class="p p-Indicator">]</span>
 </code></pre></div>
 <p>The above code block contains a sample configuration file written in the YAML language.</p>
 <div class="admonition info">
@@ -718,16 +718,16 @@ to generate custom configuration classes that represent YAML configuration files
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">driconfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">DriConfig</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">AppConfig</span><span class="p">(</span><span class="n">DriConfig</span><span class="p">):</span>  <span class="c1"># Inherits the base DriConfig class.</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Empty configuration class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Empty configuration class."""</span>
 
     <span class="k">pass</span>
 
 <span class="n">app_config</span> <span class="o">=</span> <span class="n">AppConfig</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">app_config</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">())</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">{}</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 </code></pre></div>
 <h3 id="the-driconfigs-driconfigconfigdict-dictionary">The DriConfig's DriConfigConfigDict dictionary<a class="headerlink" href="#the-driconfigs-driconfigconfigdict-dictionary" title="Permanent link">📎</a></h3>
 <p>Now, we would want to read and parse the <code>config.yaml</code> file we created before.
@@ -735,20 +735,20 @@ We need to configure our <code>AppConfig</code> class in order to point at that 
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">driconfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">DriConfig</span><span class="p">,</span> <span class="n">DriConfigConfigDict</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">AppConfig</span><span class="p">(</span><span class="n">DriConfig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Empty configuration class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Empty configuration class."""</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure AppConfig to point at the config.yaml file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configure AppConfig to point at the config.yaml file."""</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">DriConfigConfigDict</span><span class="p">(</span>
-        <span class="n">config_folder</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
-        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">,</span>
+        <span class="n">config_folder</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">,</span>
     <span class="p">)</span>
 
 <span class="n">app_config</span> <span class="o">=</span> <span class="n">AppConfig</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">app_config</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">())</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">{}</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -774,12 +774,12 @@ added or modified.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">driconfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">DriConfig</span><span class="p">,</span> <span class="n">DriConfigConfigDict</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">AppConfig</span><span class="p">(</span><span class="n">DriConfig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration class to parse the config.yaml file contents.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configuration class to parse the config.yaml file contents."""</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure AppConfig to point at the config.yaml file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configure AppConfig to point at the config.yaml file."""</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">DriConfigConfigDict</span><span class="p">(</span>
-        <span class="n">config_folder</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
-        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">,</span>
+        <span class="n">config_folder</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">parameter_a</span><span class="p">:</span> <span class="nb">str</span>
@@ -790,18 +790,18 @@ added or modified.</p>
 <span class="n">app_config</span> <span class="o">=</span> <span class="n">AppConfig</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">app_config</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">{</span>
-<span class="sd">    &quot;parameter_a&quot;: &quot;some string&quot;,</span>
-<span class="sd">    &quot;parameter_b&quot;: 1,</span>
-<span class="sd">    &quot;parameter_c&quot;: 1.2,</span>
-<span class="sd">    &quot;parameter_d&quot;: [</span>
-<span class="sd">        &quot;I&#39;m&quot;,</span>
-<span class="sd">        &quot;a&quot;,</span>
-<span class="sd">        &quot;list&quot;</span>
+<span class="sd">    "parameter_a": "some string",</span>
+<span class="sd">    "parameter_b": 1,</span>
+<span class="sd">    "parameter_c": 1.2,</span>
+<span class="sd">    "parameter_d": [</span>
+<span class="sd">        "I'm",</span>
+<span class="sd">        "a",</span>
+<span class="sd">        "list"</span>
 <span class="sd">    ]</span>
 <span class="sd">}</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 </code></pre></div>
 <p>Note how we declared the configuration variable types following Pydantic's syntax.
 In fact, while parsing the <code>config.yaml</code> file DriConfig is performing <strong>type validation</strong>,
@@ -810,12 +810,12 @@ so that if your configuration variable value is of an undesired type it will rai
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">AppConfig</span><span class="p">(</span><span class="n">DriConfig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration class to parse the config.yaml file contents.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configuration class to parse the config.yaml file contents."""</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure AppConfig to point at the config.yaml file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configure AppConfig to point at the config.yaml file."""</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">DriConfigConfigDict</span><span class="p">(</span>
-        <span class="n">config_folder</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
-        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">,</span>
+        <span class="n">config_folder</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">parameter_a</span><span class="p">:</span> <span class="nb">int</span>
@@ -824,12 +824,12 @@ so that if your configuration variable value is of an undesired type it will rai
     <span class="n">app_config</span> <span class="o">=</span> <span class="n">AppConfig</span><span class="p">()</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">1 validation error for AppConfig</span>
 <span class="sd">parameter_a</span>
-<span class="sd">  Input should be a valid integer, unable to parse string as an integer [type=int_parsing, input_value=&#39;some string&#39;, input_type=str]</span>
+<span class="sd">  Input should be a valid integer, unable to parse string as an integer [type=int_parsing, input_value='some string', input_type=str]</span>
 <span class="sd">    For further information visit https://errors.pydantic.dev/2.2/v/int_parsing</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 </code></pre></div>
 <p>As you can guess, all the benefits from Pydantic are hold by the <code>DriConfig</code> base class.
 Then, apart from raising errors on incorrect types, values are casted to the correct
@@ -842,45 +842,45 @@ configuration file, it gets the default value from the configuration class defin
 <span class="kn">from</span><span class="w"> </span><span class="nn">driconfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">DriConfig</span><span class="p">,</span> <span class="n">DriConfigConfigDict</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">AppConfig</span><span class="p">(</span><span class="n">DriConfig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration class to parse the config.yaml file contents.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configuration class to parse the config.yaml file contents."""</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure AppConfig to point at the config.yaml file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configure AppConfig to point at the config.yaml file."""</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">DriConfigConfigDict</span><span class="p">(</span>
-        <span class="n">config_folder</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
-        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">,</span>
+        <span class="n">config_folder</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">parameter_a</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">parameter_b</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">parameter_c</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">parameter_d</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-<span class="hll">    <span class="n">parameter_e</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default value&quot;</span>
+<span class="hll">    <span class="n">parameter_e</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"default value"</span>
 </span>
 <span class="n">app_config</span> <span class="o">=</span> <span class="n">AppConfig</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">app_config</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">{</span>
-<span class="sd">    &quot;parameter_a&quot;: &quot;some string&quot;,</span>
-<span class="sd">    &quot;parameter_b&quot;: 1,</span>
-<span class="sd">    &quot;parameter_c&quot;: 1.2,</span>
-<span class="sd">    &quot;parameter_d&quot;: [</span>
-<span class="sd">        &quot;I&#39;m&quot;,</span>
-<span class="sd">        &quot;a&quot;,</span>
-<span class="sd">        &quot;list&quot;</span>
+<span class="sd">    "parameter_a": "some string",</span>
+<span class="sd">    "parameter_b": 1,</span>
+<span class="sd">    "parameter_c": 1.2,</span>
+<span class="sd">    "parameter_d": [</span>
+<span class="sd">        "I'm",</span>
+<span class="sd">        "a",</span>
+<span class="sd">        "list"</span>
 <span class="sd">    ],</span>
-<span class="hll"><span class="sd">    &quot;parameter_e&quot;: &quot;default_value</span>
+<span class="hll"><span class="sd">    "parameter_e": "default_value</span>
 </span><span class="sd">}</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 </code></pre></div>
 <p>Now, if we add <code>parameter_e</code> to our <code>config.yaml</code> file:
 <div class="highlight"><pre><span></span><code><span class="c1"># config.yaml</span>
 
-<span class="nt">parameter_a</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;some</span><span class="nv"> </span><span class="s">string&quot;</span>
+<span class="nt">parameter_a</span><span class="p">:</span><span class="w"> </span><span class="s">"some</span><span class="nv"> </span><span class="s">string"</span>
 <span class="nt">parameter_b</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="nt">parameter_c</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.2</span>
-<span class="nt">parameter_d</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;I&#39;m&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;a&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">]</span>
-<span class="hll"><span class="nt">parameter_e</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;custom</span><span class="nv"> </span><span class="s">value&quot;</span>
+<span class="nt">parameter_d</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"I'm"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"a"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"list"</span><span class="p p-Indicator">]</span>
+<span class="hll"><span class="nt">parameter_e</span><span class="p">:</span><span class="w"> </span><span class="s">"custom</span><span class="nv"> </span><span class="s">value"</span>
 </span></code></pre></div>
 We see how it prevails over the default value:
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
@@ -888,36 +888,36 @@ We see how it prevails over the default value:
 <span class="kn">from</span><span class="w"> </span><span class="nn">driconfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">DriConfig</span><span class="p">,</span> <span class="n">DriConfigConfigDict</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">AppConfig</span><span class="p">(</span><span class="n">DriConfig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration class to parse the config.yaml file contents.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configuration class to parse the config.yaml file contents."""</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure AppConfig to point at the config.yaml file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configure AppConfig to point at the config.yaml file."""</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">DriConfigConfigDict</span><span class="p">(</span>
-        <span class="n">config_folder</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
-        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">,</span>
+        <span class="n">config_folder</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">parameter_a</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">parameter_b</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">parameter_c</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">parameter_d</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="n">parameter_e</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default value&quot;</span>
+    <span class="n">parameter_e</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"default value"</span>
 
 <span class="n">app_config</span> <span class="o">=</span> <span class="n">AppConfig</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">app_config</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">{</span>
-<span class="sd">    &quot;parameter_a&quot;: &quot;some string&quot;,</span>
-<span class="sd">    &quot;parameter_b&quot;: 1,</span>
-<span class="sd">    &quot;parameter_c&quot;: 1.2,</span>
-<span class="sd">    &quot;parameter_d&quot;: [</span>
-<span class="sd">        &quot;I&#39;m&quot;,</span>
-<span class="sd">        &quot;a&quot;,</span>
-<span class="sd">        &quot;list&quot;</span>
+<span class="sd">    "parameter_a": "some string",</span>
+<span class="sd">    "parameter_b": 1,</span>
+<span class="sd">    "parameter_c": 1.2,</span>
+<span class="sd">    "parameter_d": [</span>
+<span class="sd">        "I'm",</span>
+<span class="sd">        "a",</span>
+<span class="sd">        "list"</span>
 <span class="sd">    ],</span>
-<span class="hll"><span class="sd">    &quot;parameter_e&quot;: &quot;custom value&quot;</span>
+<span class="hll"><span class="sd">    "parameter_e": "custom value"</span>
 </span><span class="sd">}</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 </code></pre></div></p>
 
 
@@ -980,7 +980,7 @@ We see how it prevails over the default value:
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "toc.follow", "navigation.top", "navigation.path", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.preview", "navigation.instant.progress"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

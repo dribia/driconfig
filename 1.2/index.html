@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="img/dribia-favicon-120x120.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -843,37 +843,37 @@ Then we can configparse with <code>driconfig</code> as follows:
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">DateInterval</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;Model for the `date_interval` configuration.&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">"""Model for the `date_interval` configuration."""</span>
   <span class="n">start</span><span class="p">:</span> <span class="n">date</span>
   <span class="n">end</span><span class="p">:</span> <span class="n">date</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">AppConfig</span><span class="p">(</span><span class="n">DriConfig</span><span class="p">):</span>
-<span class="w">   </span><span class="sd">&quot;&quot;&quot;Interface for the config/config.yaml file.&quot;&quot;&quot;</span>
+<span class="w">   </span><span class="sd">"""Interface for the config/config.yaml file."""</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure the YAML file location.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configure the YAML file location."""</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">DriConfigConfigDict</span><span class="p">(</span>
-        <span class="n">config_folder</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
-        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">,</span>
+        <span class="n">config_folder</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+        <span class="n">config_file_name</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">,</span>
     <span class="p">)</span>
    <span class="n">model_parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
    <span class="n">date_interval</span><span class="p">:</span> <span class="n">DateInterval</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">AppConfig</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">{</span>
-<span class="sd">    &quot;model_parameters&quot;: {</span>
-<span class="sd">        &quot;eta&quot;: 0.2,</span>
-<span class="sd">        &quot;gamma&quot;: 2.0,</span>
-<span class="sd">        &quot;lambda&quot;: 1.0</span>
+<span class="sd">    "model_parameters": {</span>
+<span class="sd">        "eta": 0.2,</span>
+<span class="sd">        "gamma": 2.0,</span>
+<span class="sd">        "lambda": 1.0</span>
 <span class="sd">    },</span>
-<span class="sd">    &quot;date_interval&quot;: {</span>
-<span class="sd">        &quot;start&quot;: &quot;2021-01-01&quot;,</span>
-<span class="sd">        &quot;end&quot;: &quot;2021-12-31&quot;</span>
+<span class="sd">    "date_interval": {</span>
+<span class="sd">        "start": "2021-01-01",</span>
+<span class="sd">        "end": "2021-12-31"</span>
 <span class="sd">    }</span>
 <span class="sd">}</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 </code></pre></div></p>
 <h2 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">📎</a></h2>
 <p>Check the <a href="contribute/">Contribute</a> site for guidelines on how to contribute to this project.</p>
@@ -940,7 +940,7 @@ Then we can configparse with <code>driconfig</code> as follows:
       <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.suggest", "search.highlight", "search.share", "toc.follow", "navigation.top", "navigation.path", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.preview", "navigation.instant.progress"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
