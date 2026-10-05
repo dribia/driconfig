@@ -50,7 +50,7 @@ docs = [
 lint = [
   "ruff==0.15.21",
   "tombi==1.5.5",
-  "ty==0.0.59",
+  "ty==0.0.84",
   "types-pyyaml>=6.0.12,<7",
 ]
 test = [
