@@ -38,7 +38,6 @@ jobs:
           make bump-version COMMIT_VERSION="$VERSION"
           NEW_VERSION=v$(uv version --dry-run --short)
           git tag -d "$NEW_VERSION" 2> /dev/null
-          echo "::add-mask::$NEW_VERSION"
           echo "new-version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
       - name: Push branch
         uses: ad-m/github-push-action@881a6320fdb16eb5318c5054f31c218aec2b324c # master
