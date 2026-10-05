@@ -31,6 +31,7 @@ format:
 lint:
 	uv run --frozen ruff format --check
 	uv run --frozen ruff check
+	uv run --frozen zizmor --no-progress .
 	uv run --frozen ty check
 	uv run --frozen tombi lint **/*.toml
 

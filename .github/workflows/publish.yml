@@ -12,11 +12,13 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v7
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          enable-cache: true
+          persist-credentials: false
+      - name: Install uv
+        uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82 # v7.5.0
+        with:
+          enable-cache: false
       - name: Build
         run: uv build --no-sources
       - name: Publish
@@ -25,14 +27,17 @@ jobs:
   docs:
     needs: [publish]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82 # v7.5.0
         with:
-          enable-cache: true
+          enable-cache: false
       - name: Install Dependencies
         run: uv sync --no-default-groups --group ci --group docs
       - name: Get minor version
@@ -41,10 +46,16 @@ jobs:
           MINOR=$(uv version --dry-run --short | cut -d"." -f-2);
           echo "minor=$MINOR" >> $GITHUB_OUTPUT
       - name: Setup git credentials
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          gh auth setup-git
       - name: Build Docs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MINOR_VERSION: ${{ steps.get-minor.outputs.minor }}
         run: |
-          uv run mike deploy --push --update-aliases --allow-empty ${{ steps.get-minor.outputs.minor }} latest
+          uv run mike deploy --push --update-aliases --allow-empty "$MINOR_VERSION" latest
           uv run mike set-default --push --allow-empty latest

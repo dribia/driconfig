@@ -10,6 +10,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
     ignore:
       - dependency-name: "dribia/driworkflows*"
     groups:
@@ -24,6 +26,8 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
         dependency-name: "pyyaml"
@@ -41,6 +45,8 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "direct"
     ignore:

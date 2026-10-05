@@ -18,27 +18,30 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: 'write'
-      id-token: 'write'
     outputs:
       new-version: ${{ steps.bump.outputs.new-version }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82 # v7.5.0
         with:
           enable-cache: true
       - name: Bump version
         id: bump
+        env:
+          VERSION: ${{ inputs.version }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          make bump-version COMMIT_VERSION=${{ github.event.inputs.version }}
+          make bump-version COMMIT_VERSION="$VERSION"
           NEW_VERSION=v$(uv version --dry-run --short)
           git tag -d "$NEW_VERSION" 2> /dev/null
           echo "::add-mask::$NEW_VERSION"
           echo "new-version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
       - name: Push branch
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@881a6320fdb16eb5318c5054f31c218aec2b324c # master
         with:
           branch: release/${{ steps.bump.outputs.new-version }}
 
@@ -48,19 +51,21 @@ jobs:
     permissions:
       pull-requests: 'write'
       contents: 'write'
-      id-token: 'write'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: release/${{ needs.bump-version.outputs.new-version }}
+          persist-credentials: false
       - name: Generate token for release bot
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         id: generate-token
         with:
           client-id: ${{ secrets.RELEASE_BOT_APP_ID }}
           private-key: ${{ secrets.RELEASE_BOT_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ steps.generate-token.outputs.token }}
           commit-message: ":label: Version bump to ${{ needs.bump-version.outputs.new-version }}"
