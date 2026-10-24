@@ -201,7 +201,7 @@ class DriConfig(BaseModel):
             return _deep_update(*reversed([source() for source in sources]))
         return {}
 
-    model_config: ClassVar[DriConfigConfigDict] = DriConfigConfigDict(
+    model_config: ClassVar[ConfigDict] = DriConfigConfigDict(
         extra="forbid",
         arbitrary_types_allowed=True,
         validate_default=True,
