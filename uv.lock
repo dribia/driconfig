@@ -370,7 +370,7 @@ toml = [
 
 [[package]]
 name = "driconfig"
-version = "1.2.3"
+version = "1.2.4"
 source = { editable = "." }
 default-groups = ["ci", "dev", "docs", "lint", "test"]
 dependencies = [
